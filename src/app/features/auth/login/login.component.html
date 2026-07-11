@@ -1,0 +1,98 @@
+<div class="login-card">
+  <h1 class="dl-display">Bem-vindo de volta!</h1>
+  <p class="dl-text-muted">Faça login para acessar sua conta</p>
+
+  <form [formGroup]="form" (ngSubmit)="submit()" class="login-form">
+    <label class="login-form__field">
+      <span>E-mail</span>
+      <input type="email" formControlName="email" placeholder="seu@email.com" />
+      @if (form.controls.email.touched && form.controls.email.invalid) {
+        <small class="login-form__error">Informe um e-mail válido.</small>
+      }
+    </label>
+
+    <label class="login-form__field">
+      <div class="login-form__field-header">
+        <span>Senha</span>
+        <a routerLink="/esqueci-senha" class="login-form__link">Esqueci minha senha</a>
+      </div>
+      <input [type]="hidePassword() ? 'password' : 'text'" formControlName="senha" placeholder="••••••••" />
+      @if (form.controls.senha.touched && form.controls.senha.invalid) {
+        <small class="login-form__error">A senha deve ter ao menos 6 caracteres.</small>
+      }
+    </label>
+
+    <label class="login-form__checkbox">
+      <input type="checkbox" formControlName="aceitaTermos" />
+      <span>
+        Li e aceito os
+        <a href="#" (click)="abrirTermos($event)">Termos de Uso</a>
+      </span>
+    </label>
+    @if (form.controls.aceitaTermos.touched && form.controls.aceitaTermos.invalid) {
+      <small class="login-form__error">É necessário aceitar os Termos de Uso para entrar.</small>
+    }
+
+    @if (errorMessage()) {
+      <div class="login-form__alert">{{ errorMessage() }}</div>
+    }
+
+    <button type="submit" class="login-form__submit" [disabled]="loading()">
+      {{ loading() ? 'Entrando...' : 'Entrar' }}
+    </button>
+  </form>
+
+  @if (showTermos()) {
+    <div class="login-terms__backdrop" (click)="fecharTermos()">
+      <div class="login-terms__modal" (click)="$event.stopPropagation()">
+        <div class="login-terms__header">
+          <h2>Termos de Uso</h2>
+          <button type="button" class="login-terms__close" (click)="fecharTermos()" aria-label="Fechar">
+            <span class="material-icons">close</span>
+          </button>
+        </div>
+        <div class="login-terms__body">
+          <h3>1. Introdução</h3>
+          <p>Estes Termos de Uso regulam o acesso e a utilização da plataforma D-LION, destinada à leitura de XML, análise fiscal e cobrança automatizada de documentos.</p>
+          <h3>2. Uso do Sistema</h3>
+          <p>O usuário se compromete a utilizar a plataforma de forma ética, respeitando as normas legais aplicáveis e mantendo a confidencialidade de suas credenciais de acesso.</p>
+          <h3>3. Responsabilidades</h3>
+          <p>O D-LION não se responsabiliza por decisões tomadas com base exclusivamente nas análises automatizadas, sendo recomendada a revisão por um profissional contábil.</p>
+          <h3>4. Privacidade e Segurança</h3>
+          <p>Os dados enviados são tratados com criptografia e em conformidade com a Lei Geral de Proteção de Dados (LGPD).</p>
+        </div>
+        <div class="login-terms__footer">
+          <button type="button" class="login-form__submit" (click)="fecharTermos()">Entendi</button>
+        </div>
+      </div>
+    </div>
+  }
+
+  <p class="login-card__footer">
+    Não tem uma conta? <a routerLink="/cadastro">Cadastre-se</a>
+  </p>
+
+  <div class="login-card__features">
+    <div class="login-card__feature">
+      <span class="material-icons">shield</span>
+      <div>
+        <strong>Segurança</strong>
+        <p>Seus dados protegidos com criptografia de ponta a ponta.</p>
+      </div>
+    </div>
+    <div class="login-card__feature">
+      <span class="material-icons">lock</span>
+      <div>
+        <strong>Confidencialidade</strong>
+        <p>Conformidade total com a LGPD em todas as operações.</p>
+      </div>
+    </div>
+    <div class="login-card__feature">
+      <span class="material-icons">support_agent</span>
+      <div>
+        <strong>Suporte</strong>
+        <p>Nossa equipe está sempre pronta para te ajudar.</p>
+      </div>
+    </div>
+  </div>
+</div>

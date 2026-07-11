@@ -1,0 +1,14 @@
+<div class="dl-card settings">
+  <h3>Configurações da Conta</h3>
+  <p class="dl-text-muted">Dados do usuário autenticado no D-LION.</p>
+
+  <dl class="settings__meta">
+    <div><dt>Nome</dt><dd>{{ usuario?.nome ?? '—' }}</dd></div>
+    <div><dt>E-mail</dt><dd>{{ usuario?.email ?? '—' }}</dd></div>
+    <div><dt>Perfil</dt><dd>{{ usuario?.role ?? '—' }}</dd></div>
+  </dl>
+
+  <p class="dl-text-muted settings__hint">
+    Preferências de notificação, empresa e segurança serão disponibilizadas em uma próxima etapa.
+  </p>
+</div>

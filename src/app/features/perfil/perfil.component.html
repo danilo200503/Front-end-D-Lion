@@ -1,0 +1,72 @@
+<div class="perfil">
+  @if (carregando()) {
+    <p class="dl-text-muted">Carregando perfil...</p>
+  } @else if (erro()) {
+    <p class="perfil__error">{{ erro() }}</p>
+  } @else {
+    <div class="perfil__grid">
+      <mat-card class="dl-card perfil__card">
+        <h3>Meu Perfil</h3>
+        <p class="dl-text-muted">Dados da sua conta em {{ perfil()?.company?.name }}.</p>
+
+        <form [formGroup]="formPerfil" (ngSubmit)="salvarPerfil()">
+          <mat-form-field appearance="outline" class="dl-full-width">
+            <mat-label>Nome</mat-label>
+            <input matInput formControlName="nome" required aria-label="Nome completo" />
+            @if (formPerfil.controls.nome.hasError('required') && formPerfil.controls.nome.touched) {
+              <mat-error>O nome é obrigatório.</mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="dl-full-width">
+            <mat-label>E-mail</mat-label>
+            <input matInput [value]="perfil()?.email" disabled aria-label="E-mail" />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="dl-full-width">
+            <mat-label>Cargo</mat-label>
+            <input matInput formControlName="cargo" aria-label="Cargo" />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="dl-full-width">
+            <mat-label>Telefone</mat-label>
+            <input matInput formControlName="telefone" aria-label="Telefone" />
+          </mat-form-field>
+
+          <button mat-flat-button color="primary" type="submit" [disabled]="salvandoPerfil()">
+            <mat-icon>save</mat-icon> {{ salvandoPerfil() ? 'Salvando...' : 'Salvar alterações' }}
+          </button>
+        </form>
+      </mat-card>
+
+      <mat-card class="dl-card perfil__card">
+        <h3>Trocar Senha</h3>
+        <p class="dl-text-muted">Recomendamos usar uma senha forte e exclusiva para o D-LION.</p>
+
+        <form [formGroup]="formSenha" (ngSubmit)="trocarSenha()">
+          <mat-form-field appearance="outline" class="dl-full-width">
+            <mat-label>Senha atual</mat-label>
+            <input matInput type="password" formControlName="senhaAtual" required aria-label="Senha atual" />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="dl-full-width">
+            <mat-label>Nova senha</mat-label>
+            <input matInput type="password" formControlName="novaSenha" required aria-label="Nova senha" />
+            @if (formSenha.controls.novaSenha.hasError('minlength') && formSenha.controls.novaSenha.touched) {
+              <mat-error>A nova senha deve ter no mínimo 8 caracteres.</mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="dl-full-width">
+            <mat-label>Confirmar nova senha</mat-label>
+            <input matInput type="password" formControlName="confirmarSenha" required aria-label="Confirmar nova senha" />
+          </mat-form-field>
+
+          <button mat-flat-button color="primary" type="submit" [disabled]="salvandoSenha()">
+            <mat-icon>lock_reset</mat-icon> {{ salvandoSenha() ? 'Salvando...' : 'Trocar senha' }}
+          </button>
+        </form>
+      </mat-card>
+    </div>
+  }
+</div>

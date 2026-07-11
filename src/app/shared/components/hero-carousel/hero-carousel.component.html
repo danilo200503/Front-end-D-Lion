@@ -1,0 +1,28 @@
+<div class="carrossel-hero">
+  <div class="carrossel-hero__trilha">
+    @for (slide of slides; track slide.imagemUrl; let i = $index) {
+      <div class="carrossel-hero__slide" [class.carrossel-hero__slide--ativo]="atual() === i">
+        <img [src]="slide.imagemUrl" [alt]="slide.textoAlternativo" loading="lazy" />
+      </div>
+    }
+  </div>
+
+  <button type="button" class="carrossel-hero__nav carrossel-hero__nav--anterior" (click)="anterior()" aria-label="Slide anterior">
+    <span class="material-icons">chevron_left</span>
+  </button>
+  <button type="button" class="carrossel-hero__nav carrossel-hero__nav--proximo" (click)="proximo()" aria-label="Próximo slide">
+    <span class="material-icons">chevron_right</span>
+  </button>
+
+  <div class="carrossel-hero__pontos">
+    @for (slide of slides; track slide.imagemUrl; let i = $index) {
+      <button
+        type="button"
+        class="carrossel-hero__ponto"
+        [class.carrossel-hero__ponto--ativo]="atual() === i"
+        (click)="irPara(i)"
+        [attr.aria-label]="'Ir para slide ' + (i + 1)"
+      ></button>
+    }
+  </div>
+</div>

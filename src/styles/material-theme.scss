@@ -1,0 +1,91 @@
+
+
+@use '@angular/material' as mat;
+
+@include mat.core();
+
+$dlion-gold: (
+  50: #fbf6e7,
+  100: #f5e9c8,
+  200: #eedba4,
+  300: #e6cd80,
+  400: #ddc25f,
+  500: #d4af37,
+  600: #b8912c,
+  700: #a17f26,
+  800: #8b6d20,
+  900: #6b5316,
+  A100: #f5e9c8,
+  A200: #eedba4,
+  A400: #ddc25f,
+  A700: #a17f26,
+  contrast: (
+    50: #1a1a1a,
+    100: #1a1a1a,
+    200: #1a1a1a,
+    300: #1a1a1a,
+    400: #1a1a1a,
+    500: #1a1a1a,
+    600: #ffffff,
+    700: #ffffff,
+    800: #ffffff,
+    900: #ffffff,
+    A100: #1a1a1a,
+    A200: #1a1a1a,
+    A400: #1a1a1a,
+    A700: #ffffff,
+  ),
+);
+
+$dlion-gray: (
+  50: #f5f6f8,
+  100: #e7e8ec,
+  200: #d6d8de,
+  300: #b8bcc6,
+  400: #8a8f98,
+  500: #6b7280,
+  600: #4b5160,
+  700: #383d49,
+  800: #262933,
+  900: #1a1a1a,
+  A100: #ffffff,
+  A200: #e7e8ec,
+  A400: #6b7280,
+  A700: #383d49,
+  contrast: (
+    50: #1a1a1a,
+    100: #1a1a1a,
+    200: #1a1a1a,
+    300: #1a1a1a,
+    400: #ffffff,
+    500: #ffffff,
+    600: #ffffff,
+    700: #ffffff,
+    800: #ffffff,
+    900: #ffffff,
+    A100: #1a1a1a,
+    A200: #1a1a1a,
+    A400: #ffffff,
+    A700: #ffffff,
+  ),
+);
+
+$dlion-primary: mat.m2-define-palette($dlion-gold, 600, 300, 800);
+$dlion-accent: mat.m2-define-palette($dlion-gray, 800, 500, 900);
+$dlion-warn: mat.m2-define-palette(mat.$m2-red-palette);
+
+$dlion-theme: mat.m2-define-light-theme(
+  (
+    color: (
+      primary: $dlion-primary,
+      accent: $dlion-accent,
+      warn: $dlion-warn,
+    ),
+    typography: mat.m2-define-typography-config(
+      $font-family: 'Inter, Roboto, "Helvetica Neue", sans-serif',
+    ),
+    density: 0,
+  )
+);
+
+@include mat.all-component-themes($dlion-theme);

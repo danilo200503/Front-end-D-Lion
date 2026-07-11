@@ -1,0 +1,21 @@
+.dl-spinner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px;
+}
+
+.dl-spinner__circle {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 3px solid var(--dl-gray-200);
+  border-top-color: var(--dl-gold);
+  animation: dl-spin 0.7s linear infinite;
+}
+
+.dl-spinner__label { font-size: 13px; }
+
+@keyframes dl-spin {
+  to { transform: rotate(360deg); }
+}

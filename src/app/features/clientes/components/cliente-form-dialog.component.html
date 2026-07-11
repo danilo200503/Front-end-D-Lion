@@ -1,0 +1,41 @@
+<h2 mat-dialog-title>{{ modoEdicao ? 'Editar Cliente' : 'Novo Cliente' }}</h2>
+
+<form [formGroup]="form" (ngSubmit)="salvar()">
+  <mat-dialog-content class="dl-dialog-content">
+    <mat-form-field appearance="outline" class="dl-full-width">
+      <mat-label>Nome</mat-label>
+      <input matInput formControlName="nome" required />
+      @if (form.controls.nome.hasError('required') && form.controls.nome.touched) {
+        <mat-error>O nome é obrigatório.</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="dl-full-width">
+      <mat-label>Empresa</mat-label>
+      <input matInput formControlName="empresa" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="dl-full-width">
+      <mat-label>CPF/CNPJ</mat-label>
+      <input matInput formControlName="cpfCnpj" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="dl-full-width">
+      <mat-label>E-mail</mat-label>
+      <input matInput type="email" formControlName="email" />
+      @if (form.controls.email.hasError('email') && form.controls.email.touched) {
+        <mat-error>Informe um e-mail válido.</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="dl-full-width">
+      <mat-label>Telefone (com DDD)</mat-label>
+      <input matInput formControlName="telefone" placeholder="Ex: 11987654321" />
+    </mat-form-field>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button type="button" (click)="cancelar()">Cancelar</button>
+    <button mat-flat-button color="primary" type="submit">Salvar</button>
+  </mat-dialog-actions>
+</form>

@@ -1,0 +1,47 @@
+<div class="cartao-cadastro">
+  <h1 class="dl-display">Crie sua conta</h1>
+  <p class="dl-text-muted">Cadastro rápido, sem burocracia</p>
+
+  <form [formGroup]="form" (ngSubmit)="enviar()" class="formulario-cadastro">
+    <label class="formulario-cadastro__campo">
+      <span>Nome</span>
+      <input type="text" formControlName="nome" placeholder="Seu nome completo" />
+      @if (form.controls.nome.touched && form.controls.nome.invalid) {
+        <small class="formulario-cadastro__erro">Informe seu nome.</small>
+      }
+    </label>
+
+    <label class="formulario-cadastro__campo">
+      <span>Empresa (opcional)</span>
+      <input type="text" formControlName="nomeEmpresa" placeholder="Nome da sua empresa" />
+    </label>
+
+    <label class="formulario-cadastro__campo">
+      <span>E-mail</span>
+      <input type="email" formControlName="email" placeholder="seu@email.com" />
+      @if (form.controls.email.touched && form.controls.email.invalid) {
+        <small class="formulario-cadastro__erro">Informe um e-mail válido.</small>
+      }
+    </label>
+
+    <label class="formulario-cadastro__campo">
+      <span>Senha</span>
+      <input [type]="ocultarSenha() ? 'password' : 'text'" formControlName="senha" placeholder="Crie uma senha" />
+      @if (form.controls.senha.touched && form.controls.senha.invalid) {
+        <small class="formulario-cadastro__erro">A senha deve ter ao menos 4 caracteres.</small>
+      }
+    </label>
+
+    @if (mensagemErro()) {
+      <div class="formulario-cadastro__alerta">{{ mensagemErro() }}</div>
+    }
+
+    <button type="submit" class="formulario-cadastro__enviar" [disabled]="carregando()">
+      {{ carregando() ? 'Criando conta...' : 'Criar conta' }}
+    </button>
+  </form>
+
+  <p class="cartao-cadastro__rodape">
+    Já tem uma conta? <a routerLink="/login">Entrar</a>
+  </p>
+</div>

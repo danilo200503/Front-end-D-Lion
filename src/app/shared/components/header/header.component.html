@@ -1,0 +1,41 @@
+<header class="dl-header">
+  <div class="dl-header__title">
+    <button
+      type="button"
+      class="dl-header__menu-btn"
+      (click)="abrirMenu()"
+      aria-label="Abrir menu de navegação"
+    >
+      <span class="material-icons">menu</span>
+    </button>
+    <dl-logo [size]="26" [showWordmark]="false" class="dl-header__logo"></dl-logo>
+    <div>
+      <h2>Dashboard</h2>
+      <p class="dl-text-muted">Visão geral da sua operação</p>
+    </div>
+  </div>
+
+  <div class="dl-header__actions">
+    <button class="dl-header__icon-btn" type="button" aria-label="Notificações">
+      <span class="material-icons">notifications_none</span>
+    </button>
+
+    <div class="dl-header__user">
+      <button
+        class="dl-header__user-link"
+        type="button"
+        routerLink="/perfil"
+        aria-label="Ir para Meu Perfil"
+      >
+        <div class="dl-header__avatar">{{ usuario?.nome?.charAt(0) ?? 'U' }}</div>
+        <div class="dl-header__user-info">
+          <span class="dl-header__user-name">{{ usuario?.nome ?? 'Usuário' }}</span>
+          <span class="dl-header__user-role dl-text-muted">Administrador</span>
+        </div>
+      </button>
+      <button class="dl-header__icon-btn" type="button" (click)="sair()" aria-label="Sair">
+        <span class="material-icons">logout</span>
+      </button>
+    </div>
+  </div>
+</header>

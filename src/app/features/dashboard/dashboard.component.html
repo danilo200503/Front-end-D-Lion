@@ -1,0 +1,158 @@
+<div class="dashboard">
+  <dl-hero-carousel></dl-hero-carousel>
+
+  @if (erro()) {
+    <p class="dashboard__error">{{ erro() }}</p>
+  }
+
+  <div class="dashboard__stats">
+    <dl-stat-card
+      label="Documentos enviados"
+      [value]="loading() ? '—' : summary()?.documentosEnviados ?? 0"
+      icon="cloud_upload"
+    ></dl-stat-card>
+    <dl-stat-card
+      label="Documentos analisados"
+      [value]="loading() ? '—' : summary()?.documentosAnalisados ?? 0"
+      icon="fact_check"
+    ></dl-stat-card>
+    <dl-stat-card
+      label="Empresas"
+      [value]="loading() ? '—' : summary()?.empresas ?? 0"
+      icon="apartment"
+    ></dl-stat-card>
+    <dl-stat-card
+      label="Score médio"
+      [value]="loading() ? '—' : (summary()?.scoreMedio ?? '—')"
+      icon="verified"
+    ></dl-stat-card>
+    <dl-stat-card
+      label="Erros encontrados"
+      [value]="loading() ? '—' : summary()?.errosEncontrados ?? 0"
+      icon="error_outline"
+    ></dl-stat-card>
+    <dl-stat-card
+      label="Economia de tempo"
+      [value]="loading() ? '—' : (summary()?.economiaDeTempoHoras ?? 0) + ' horas'"
+      icon="schedule"
+    ></dl-stat-card>
+  </div>
+
+  <div class="dashboard__stats dashboard__stats--cobrancas">
+    <dl-stat-card
+      label="Total de cobranças"
+      [value]="carregandoCobrancas() ? '—' : resumoCobrancas()?.total ?? 0"
+      icon="request_quote"
+    ></dl-stat-card>
+    <dl-stat-card
+      label="Pendentes"
+      [value]="carregandoCobrancas() ? '—' : resumoCobrancas()?.pendentes ?? 0"
+      icon="hourglass_empty"
+    ></dl-stat-card>
+    <dl-stat-card
+      label="Pagas"
+      [value]="carregandoCobrancas() ? '—' : resumoCobrancas()?.pagas ?? 0"
+      icon="check_circle"
+    ></dl-stat-card>
+    <dl-stat-card
+      label="Em atraso"
+      [value]="carregandoCobrancas() ? '—' : resumoCobrancas()?.atrasadas ?? 0"
+      icon="warning_amber"
+    ></dl-stat-card>
+  </div>
+
+  @if (!loading() && summary()) {
+    <div class="dashboard__charts">
+      <div class="dl-card dashboard__chart-card">
+        <h3>Erros por Tipo</h3>
+        @if (dadosErrosPorTipo().length > 0) {
+          <dl-chart type="bar" label="Erros" [labels]="labelsErrosPorTipo()" [data]="dadosErrosPorTipo()"></dl-chart>
+        } @else {
+          <p class="dl-text-muted">Ainda não há análises suficientes para gerar este gráfico.</p>
+        }
+      </div>
+
+      <div class="dl-card dashboard__chart-card">
+        <h3>Distribuição dos Erros</h3>
+        @if (dadosErrosPorTipo().length > 0) {
+          <dl-chart type="pie" label="Distribuição" [labels]="labelsErrosPorTipo()" [data]="dadosErrosPorTipo()"></dl-chart>
+        } @else {
+          <p class="dl-text-muted">Ainda não há análises suficientes para gerar este gráfico.</p>
+        }
+      </div>
+
+      <div class="dl-card dashboard__chart-card dashboard__chart-card--wide">
+        <h3>XML Enviados por Mês</h3>
+        @if (dadosUploadsPorMes().length > 0) {
+          <dl-chart type="line" label="Documentos enviados" [labels]="labelsUploadsPorMes()" [data]="dadosUploadsPorMes()"></dl-chart>
+        } @else {
+          <p class="dl-text-muted">Ainda não há documentos suficientes para gerar este gráfico.</p>
+        }
+      </div>
+    </div>
+  }
+
+  <div class="dashboard__activity">
+    <div class="dl-card dashboard__activity-card">
+      <h3>Últimos Documentos Enviados</h3>
+      @if (carregandoAtividade()) {
+        <p class="dl-text-muted">Carregando...</p>
+      } @else if (ultimosDocumentos().length === 0) {
+        <p class="dl-text-muted">Nenhum documento enviado ainda.</p>
+      } @else {
+        <ul class="dashboard__activity-list">
+          @for (doc of ultimosDocumentos(); track doc.id) {
+            <li>
+              <span class="material-icons">description</span>
+              <div class="dashboard__activity-info">
+                <span class="dashboard__activity-title">{{ doc.nomeArquivo }}</span>
+                <span class="dl-text-muted">{{ doc.empresa ?? 'Empresa não identificada' }}</span>
+              </div>
+              <span class="dashboard__activity-date dl-text-muted">{{ doc.createdAt | date: 'dd/MM' }}</span>
+            </li>
+          }
+        </ul>
+      }
+      <a routerLink="/documentos" class="dashboard__activity-link">Ver todos os documentos</a>
+    </div>
+
+    <div class="dl-card dashboard__activity-card">
+      <h3>Últimas Cobranças</h3>
+      @if (carregandoAtividade()) {
+        <p class="dl-text-muted">Carregando...</p>
+      } @else if (ultimasCobrancas().length === 0) {
+        <p class="dl-text-muted">Nenhuma cobrança criada ainda.</p>
+      } @else {
+        <ul class="dashboard__activity-list">
+          @for (cob of ultimasCobrancas(); track cob.id) {
+            <li>
+              <span class="material-icons">request_quote</span>
+              <div class="dashboard__activity-info">
+                <span class="dashboard__activity-title">{{ cob.descricao }}</span>
+                <span class="dl-text-muted">{{ cob.cliente?.nome ?? 'Cliente não identificado' }} · {{ formatarValor(cob.valor) }}</span>
+              </div>
+              <span class="dashboard__activity-date dl-text-muted">{{ cob.criadoEm | date: 'dd/MM' }}</span>
+            </li>
+          }
+        </ul>
+      }
+      <a routerLink="/cobrancas" class="dashboard__activity-link">Ver todas as cobranças</a>
+    </div>
+  </div>
+
+  <div class="dl-card dashboard__cta">
+    <div>
+      <h3>Comece enviando um documento fiscal</h3>
+      <p class="dl-text-muted">
+        Envie um XML de NFe/CTe em "Documentos Fiscais" para que o D-LION processe os dados
+        e a IA Fiscal gere o Score Fiscal automaticamente.
+      </p>
+      @if (summary()?.ultimaAnalise) {
+        <p class="dl-text-muted dashboard__last-analysis">
+          Última análise: {{ summary()?.ultimaAnalise | date: 'dd/MM/yyyy HH:mm' }}
+        </p>
+      }
+    </div>
+    <a routerLink="/documentos" class="dl-btn-gold dashboard__cta-btn">Enviar documento</a>
+  </div>
+</div>

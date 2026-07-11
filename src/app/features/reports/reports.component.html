@@ -1,0 +1,48 @@
+<div class="reports">
+  <div class="dl-card reports__form-card">
+    <h3>Gerar Planilha Excel</h3>
+    <p class="dl-text-muted">
+      Selecione os documentos já analisados que deseja incluir na planilha.
+      Se nenhum for selecionado, todos os documentos analisados serão incluídos.
+    </p>
+
+    @if (carregando()) {
+      <p class="dl-text-muted">Carregando documentos...</p>
+    } @else if (erro()) {
+      <p class="reports__error">{{ erro() }}</p>
+    } @else if (documentosAnalisados().length === 0) {
+      <p class="dl-text-muted">Nenhum documento analisado ainda. Envie e analise um XML primeiro.</p>
+    } @else {
+      <div class="reports__actions">
+        <button type="button" class="reports__link-btn" (click)="selecionarTodos()">Selecionar todos</button>
+        <button type="button" class="reports__link-btn" (click)="limparSelecao()">Limpar seleção</button>
+      </div>
+
+      <ul class="reports__doc-list">
+        @for (doc of documentosAnalisados(); track doc.id) {
+          <li>
+            <label>
+              <input
+                type="checkbox"
+                [checked]="selecionados().has(doc.id)"
+                (change)="alternarSelecao(doc.id)"
+              />
+              <span class="reports__doc-name">{{ doc.nomeArquivo }}</span>
+              <span class="dl-text-muted">{{ doc.empresa ?? 'Empresa não identificada' }}</span>
+            </label>
+          </li>
+        }
+      </ul>
+
+      <button
+        type="button"
+        class="dl-btn-gold reports__submit"
+        [disabled]="gerando()"
+        (click)="gerarPlanilha()"
+      >
+        <span class="material-icons">grid_on</span>
+        {{ gerando() ? 'Gerando...' : 'Gerar planilha Excel' }}
+      </button>
+    }
+  </div>
+</div>

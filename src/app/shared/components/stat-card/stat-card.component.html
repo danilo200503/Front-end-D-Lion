@@ -1,0 +1,14 @@
+<div class="stat-card dl-card">
+  <div class="stat-card__top">
+    <span class="stat-card__label dl-text-muted">{{ label }}</span>
+    @if (icon) {
+      <span class="material-icons stat-card__icon">{{ icon }}</span>
+    }
+  </div>
+  <div class="stat-card__value">{{ value }}</div>
+  @if (delta) {
+    <div class="stat-card__delta" [class.stat-card__delta--down]="trend === 'down'">
+      {{ delta }}
+    </div>
+  }
+</div>

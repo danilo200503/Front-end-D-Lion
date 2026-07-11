@@ -1,0 +1,44 @@
+.error-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 24px;
+  background: var(--dl-gray-100);
+}
+
+.error-page__icon {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: var(--dl-gold-light);
+  color: var(--dl-gold-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+
+  mat-icon { font-size: 36px; height: 36px; width: 36px; }
+}
+
+.error-page__code {
+  font-family: var(--dl-font-display);
+  font-size: 48px;
+  font-weight: 800;
+  color: var(--dl-gold-dark);
+}
+
+.error-page__title {
+  font-size: 20px;
+  margin: 8px 0;
+  color: var(--dl-black);
+}
+
+.error-page__desc {
+  color: var(--dl-gray-500);
+  font-size: 14px;
+  max-width: 420px;
+  margin: 0 0 24px;
+}

@@ -1,0 +1,33 @@
+.clientes {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.clientes__header, .clientes__table-card { padding: 20px; }
+
+.clientes__header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+
+h3 { margin: 0 0 4px; font-size: 15px; }
+
+.clientes__search { width: 100%; }
+
+.clientes__error { color: var(--dl-danger); font-size: 13px; }
+
+.clientes__table-scroll {
+  overflow-x: auto;
+}
+
+.clientes__table {
+  width: 100%;
+
+  th { font-size: 11px; text-transform: uppercase; color: var(--dl-gray-500); }
+  td { font-size: 13px; }
+}

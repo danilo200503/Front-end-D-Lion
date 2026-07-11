@@ -1,0 +1,162 @@
+<div class="fiscal">
+  <div class="dl-card fiscal__list">
+    <h3>Documentos Analisados</h3>
+    <p class="dl-text-muted">Selecione um documento para ver a análise fiscal detalhada.</p>
+
+    @if (carregando()) {
+      <p class="dl-text-muted">Carregando documentos...</p>
+    } @else if (erro()) {
+      <p class="fiscal__error">{{ erro() }}</p>
+    } @else if (documentos().length === 0) {
+      <p class="dl-text-muted">Nenhum documento fiscal enviado ainda. Envie um XML em "Documentos Fiscais".</p>
+    } @else {
+      <ul class="fiscal__doc-list">
+        @for (doc of documentos(); track doc.id) {
+          <li
+            class="fiscal__doc-item"
+            [class.fiscal__doc-item--active]="selecionado()?.id === doc.id"
+            (click)="selecionar(doc)"
+          >
+            <span class="material-icons">description</span>
+            <div class="fiscal__doc-info">
+              <span class="fiscal__doc-name">{{ doc.nomeArquivo }}</span>
+              <span class="dl-text-muted">{{ doc.empresa ?? 'Empresa não identificada' }}</span>
+            </div>
+            <span
+              class="fiscal__badge"
+              [class.fiscal__badge--erro]="doc.status === 'ERRO'"
+              [class.fiscal__badge--processando]="doc.status === 'PROCESSANDO'"
+            >
+              {{ doc.status === 'CONCLUIDO' ? 'Concluído' : doc.status === 'ERRO' ? 'Erro' : 'Processando' }}
+            </span>
+          </li>
+        }
+      </ul>
+    }
+  </div>
+
+  <div class="fiscal__detail">
+    @if (selecionado(); as doc) {
+      <mat-card class="dl-card fiscal__summary-card">
+        <h3>Dados do Documento</h3>
+        <dl class="fiscal__meta">
+          <div><dt>Empresa</dt><dd>{{ doc.empresa ?? '—' }}</dd></div>
+          <div><dt>CNPJ</dt><dd>{{ doc.cnpj ?? '—' }}</dd></div>
+          <div><dt>Número / Série</dt><dd>{{ doc.numeroNota ?? '—' }}{{ doc.serie ? ' / ' + doc.serie : '' }}</dd></div>
+          <div><dt>Destinatário</dt><dd>{{ doc.destinatario ?? '—' }}</dd></div>
+          <div><dt>Valor Total</dt><dd>{{ formatarValor(doc.valorTotal) }}</dd></div>
+          <div><dt>Tipo</dt><dd>{{ doc.tipoDocumento === 'CTE' ? 'CT-e' : 'NF-e' }}</dd></div>
+        </dl>
+
+        <h4>Impostos Encontrados</h4>
+        @if (doc.impostos && doc.impostos.length > 0) {
+          <div class="fiscal__chip-row">
+            @for (imposto of doc.impostos; track imposto.tipo) {
+              <span class="fiscal__chip">{{ imposto.tipo }}: {{ formatarValor(imposto.valor) }}</span>
+            }
+          </div>
+        } @else {
+          <p class="dl-text-muted">Nenhum imposto identificado neste documento.</p>
+        }
+
+        <button
+          mat-flat-button
+          color="primary"
+          class="fiscal__analyze-btn"
+          [disabled]="analisando() || doc.status !== 'CONCLUIDO'"
+          (click)="analisarComIa()"
+        >
+          <mat-icon>psychology</mat-icon>
+          {{ analisando() ? 'Analisando XML...' : 'Analisar com IA Fiscal' }}
+        </button>
+
+        @if (analisando()) {
+          <mat-progress-bar mode="indeterminate" class="fiscal__progress"></mat-progress-bar>
+        }
+      </mat-card>
+
+      @if (resultado(); as res) {
+        <div class="fiscal__cards-grid">
+          <mat-card class="dl-card fiscal__stat-card">
+            <span class="fiscal__stat-value" [class]="corClassificacao(res.classificacao)">{{ res.score }}</span>
+            <span class="fiscal__stat-label">Score Fiscal</span>
+          </mat-card>
+          <mat-card class="dl-card fiscal__stat-card">
+            <span class="fiscal__stat-value fiscal__chip-tag" [ngClass]="corClassificacao(res.classificacao)">{{ res.classificacao }}</span>
+            <span class="fiscal__stat-label">Classificação</span>
+          </mat-card>
+          <mat-card class="dl-card fiscal__stat-card">
+            <span class="fiscal__stat-value">{{ res.totalErros }}</span>
+            <span class="fiscal__stat-label">Quantidade de Erros</span>
+          </mat-card>
+          <mat-card class="dl-card fiscal__stat-card">
+            <span class="fiscal__stat-value">{{ quantidadeProdutos() }}</span>
+            <span class="fiscal__stat-label">Produtos</span>
+          </mat-card>
+          <mat-card class="dl-card fiscal__stat-card">
+            <span class="fiscal__stat-value">{{ formatarValor(doc.valorTotal) }}</span>
+            <span class="fiscal__stat-label">Valor Total</span>
+          </mat-card>
+        </div>
+
+        <mat-card class="dl-card fiscal__errors-card">
+          <h3>Inconsistências Identificadas</h3>
+
+          @if (res.erros.length === 0) {
+            <p class="dl-text-muted">Nenhuma inconsistência encontrada neste documento. 🎉</p>
+          } @else {
+            <div class="fiscal__chip-row fiscal__chip-row--tipos">
+              @for (tipo of tiposDeErroConhecidos; track tipo) {
+                @if (temErroDoTipo(res.erros, tipo)) {
+                  <span class="fiscal__chip-tag fiscal__chip-tipo">{{ tipo }}</span>
+                }
+              }
+            </div>
+
+            <table mat-table [dataSource]="res.erros" class="fiscal__table">
+              <ng-container matColumnDef="tipo">
+                <th mat-header-cell *matHeaderCellDef>Tipo</th>
+                <td mat-cell *matCellDef="let e">
+                  <span class="fiscal__chip-tag fiscal__chip-tipo">{{ e.tipo }}</span>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="descricao">
+                <th mat-header-cell *matHeaderCellDef>Descrição</th>
+                <td mat-cell *matCellDef="let e">{{ e.descricao }}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="explicacao">
+                <th mat-header-cell *matHeaderCellDef>Explicação</th>
+                <td mat-cell *matCellDef="let e" [matTooltip]="e.explicacao">{{ e.explicacao }}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="correcao">
+                <th mat-header-cell *matHeaderCellDef>Como corrigir</th>
+                <td mat-cell *matCellDef="let e">{{ e.correcao }}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="severidade">
+                <th mat-header-cell *matHeaderCellDef>Status</th>
+                <td mat-cell *matCellDef="let e">
+                  <span class="fiscal__chip-tag" [ngClass]="corSeveridade(e.severidade)">{{ e.severidade }}</span>
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="colunasErros"></tr>
+              <tr mat-row *matRowDef="let row; columns: colunasErros"></tr>
+            </table>
+          }
+
+          <button mat-stroked-button color="primary" class="fiscal__pdf-btn" (click)="gerarPdf()">
+            <mat-icon>picture_as_pdf</mat-icon> Gerar PDF
+          </button>
+        </mat-card>
+      }
+    } @else {
+      <div class="dl-card">
+        <p class="dl-text-muted">Selecione um documento na lista para ver a análise.</p>
+      </div>
+    }
+  </div>
+</div>

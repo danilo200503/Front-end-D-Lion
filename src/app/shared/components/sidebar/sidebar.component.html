@@ -1,0 +1,31 @@
+<div class="sidebar__overlay" [class.sidebar__overlay--visible]="isOpenMobile()" (click)="fecharMenuMobile()"></div>
+
+<nav class="sidebar" [class.sidebar--mobile-open]="isOpenMobile()">
+  <div class="sidebar__brand">
+    <dl-logo [size]="30"></dl-logo>
+    <button
+      type="button"
+      class="sidebar__close-btn"
+      (click)="fecharMenuMobile()"
+      aria-label="Fechar menu"
+    >
+      <span class="material-icons">close</span>
+    </button>
+  </div>
+
+  <ul class="sidebar__list">
+    @for (item of navItems; track item.route) {
+      <li>
+        <a
+          class="sidebar__link"
+          [routerLink]="item.route"
+          routerLinkActive="sidebar__link--active"
+          (click)="fecharMenuMobile()"
+        >
+          <span class="material-icons">{{ item.icon }}</span>
+          <span>{{ item.label }}</span>
+        </a>
+      </li>
+    }
+  </ul>
+</nav>

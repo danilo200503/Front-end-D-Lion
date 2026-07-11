@@ -1,0 +1,24 @@
+.perfil__error { color: var(--dl-danger); font-size: 13px; }
+
+.perfil__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+
+  @media (max-width: 900px) { grid-template-columns: 1fr; }
+}
+
+.perfil__card {
+  padding: 24px;
+
+  h3 { margin: 0 0 4px; font-size: 15px; }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-top: 16px;
+  }
+
+  button { align-self: flex-start; margin-top: 8px; }
+}

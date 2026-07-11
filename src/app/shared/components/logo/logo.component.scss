@@ -1,0 +1,19 @@
+.dl-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.dl-logo__icon {
+  flex-shrink: 0;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.dl-logo__wordmark {
+  font-family: var(--dl-font-display);
+  font-weight: 800;
+  font-size: 19px;
+  letter-spacing: 0.02em;
+  color: var(--dl-black);
+}

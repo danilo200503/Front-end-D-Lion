@@ -1,0 +1,98 @@
+<div class="historico">
+  <mat-card class="dl-card historico__filters">
+    <h3>Histórico de Análises</h3>
+    <p class="dl-text-muted">Pesquise e filtre todas as análises fiscais já realizadas.</p>
+
+    <div class="historico__filters-row">
+      <mat-form-field appearance="outline" class="historico__search">
+        <mat-label>Pesquisar por empresa, CNPJ ou nota</mat-label>
+        <input matInput [ngModel]="termoBusca()" (ngModelChange)="termoBusca.set($event)" placeholder="Ex: L J Guerra, 12345678000199..." />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Período</mat-label>
+        <mat-select [ngModel]="periodo()" (ngModelChange)="periodo.set($event)">
+          <mat-option value="TODOS">Todos</mat-option>
+          <mat-option value="7">Últimos 7 dias</mat-option>
+          <mat-option value="30">Últimos 30 dias</mat-option>
+          <mat-option value="90">Últimos 90 dias</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Score mínimo</mat-label>
+        <input matInput type="number" min="0" max="100" [ngModel]="scoreMinimo()" (ngModelChange)="scoreMinimo.set($event)" />
+      </mat-form-field>
+    </div>
+  </mat-card>
+
+  <mat-card class="dl-card historico__table-card">
+    @if (carregando()) {
+      <p class="dl-text-muted">Carregando histórico...</p>
+    } @else if (erro()) {
+      <p class="historico__error">{{ erro() }}</p>
+    } @else if (historicoFiltrado().length === 0) {
+      <p class="dl-text-muted">Nenhuma análise encontrada para os filtros selecionados.</p>
+    } @else {
+      <table mat-table [dataSource]="historicoPaginado()" class="historico__table">
+        <ng-container matColumnDef="empresa">
+          <th mat-header-cell *matHeaderCellDef>Empresa</th>
+          <td mat-cell *matCellDef="let r">{{ r.document.empresa ?? '—' }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="cnpj">
+          <th mat-header-cell *matHeaderCellDef>CNPJ</th>
+          <td mat-cell *matCellDef="let r">{{ r.document.cnpj ?? '—' }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="nota">
+          <th mat-header-cell *matHeaderCellDef>Nota</th>
+          <td mat-cell *matCellDef="let r">{{ r.document.numeroNota ?? '—' }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="data">
+          <th mat-header-cell *matHeaderCellDef>Data</th>
+          <td mat-cell *matCellDef="let r">{{ r.createdAt | date: 'dd/MM/yyyy HH:mm' }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="score">
+          <th mat-header-cell *matHeaderCellDef>Score</th>
+          <td mat-cell *matCellDef="let r">
+            <span class="historico__chip" [ngClass]="corClassificacao(r.classificacao)">
+              {{ r.scoreFiscal }} · {{ r.classificacao }}
+            </span>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="erros">
+          <th mat-header-cell *matHeaderCellDef>Erros</th>
+          <td mat-cell *matCellDef="let r">{{ r.totalErros }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef>Status</th>
+          <td mat-cell *matCellDef="let r">{{ r.document.status === 'CONCLUIDO' ? 'Concluído' : r.document.status }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="acoes">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let r">
+            <button mat-button color="primary" (click)="visualizarNovamente(r)">
+              <mat-icon>visibility</mat-icon> Visualizar
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="colunas"></tr>
+        <tr mat-row *matRowDef="let row; columns: colunas"></tr>
+      </table>
+
+      <mat-paginator
+        [length]="historicoFiltrado().length"
+        [pageSize]="tamanhoPagina()"
+        [pageSizeOptions]="[5, 10, 25, 50]"
+        (page)="aoMudarPagina($event)"
+      ></mat-paginator>
+    }
+  </mat-card>
+</div>

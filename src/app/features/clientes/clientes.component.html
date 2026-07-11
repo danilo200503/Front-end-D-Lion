@@ -1,0 +1,73 @@
+<div class="clientes">
+  <mat-card class="dl-card clientes__header">
+    <div class="clientes__header-row">
+      <div>
+        <h3>Clientes</h3>
+        <p class="dl-text-muted">Cadastre e gerencie os clientes que podem receber cobranças.</p>
+      </div>
+      <button mat-flat-button color="primary" (click)="abrirNovoCliente()">
+        <mat-icon>person_add</mat-icon> Novo Cliente
+      </button>
+    </div>
+
+    <mat-form-field appearance="outline" class="clientes__search">
+      <mat-label>Pesquisar por nome, empresa, CPF/CNPJ ou e-mail</mat-label>
+      <input matInput [ngModel]="termoBusca()" (ngModelChange)="aoDigitarBusca($event)" />
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+  </mat-card>
+
+  <mat-card class="dl-card clientes__table-card">
+    @if (carregando()) {
+      <p class="dl-text-muted">Carregando clientes...</p>
+    } @else if (erro()) {
+      <p class="clientes__error">{{ erro() }}</p>
+    } @else if (clientes().length === 0) {
+      <p class="dl-text-muted">Nenhum cliente encontrado.</p>
+    } @else {
+      <div class="clientes__table-scroll">
+      <table mat-table [dataSource]="clientes()" class="clientes__table">
+        <ng-container matColumnDef="nome">
+          <th mat-header-cell *matHeaderCellDef>Nome</th>
+          <td mat-cell *matCellDef="let c">{{ c.nome }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="empresa">
+          <th mat-header-cell *matHeaderCellDef>Empresa</th>
+          <td mat-cell *matCellDef="let c">{{ c.empresa ?? '—' }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="cpfCnpj">
+          <th mat-header-cell *matHeaderCellDef>CPF/CNPJ</th>
+          <td mat-cell *matCellDef="let c">{{ c.cpfCnpj ?? '—' }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="email">
+          <th mat-header-cell *matHeaderCellDef>E-mail</th>
+          <td mat-cell *matCellDef="let c">{{ c.email ?? '—' }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="telefone">
+          <th mat-header-cell *matHeaderCellDef>Telefone</th>
+          <td mat-cell *matCellDef="let c">{{ c.telefone ?? '—' }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="acoes">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let c">
+            <button mat-icon-button (click)="editarCliente(c)" matTooltip="Editar" [attr.aria-label]="'Editar cliente ' + c.nome">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button (click)="excluirCliente(c)" matTooltip="Excluir" [attr.aria-label]="'Excluir cliente ' + c.nome">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="colunas"></tr>
+        <tr mat-row *matRowDef="let row; columns: colunas"></tr>
+      </table>
+      </div>
+    }
+  </mat-card>
+</div>

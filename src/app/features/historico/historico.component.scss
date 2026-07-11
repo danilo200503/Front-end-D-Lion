@@ -1,0 +1,41 @@
+.historico {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.historico__filters, .historico__table-card { padding: 20px; }
+
+h3 { margin: 0 0 4px; font-size: 15px; }
+
+.historico__filters-row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 12px;
+
+  mat-form-field { flex: 1; min-width: 180px; }
+}
+
+.historico__search { flex: 2; min-width: 260px; }
+
+.historico__error { color: var(--dl-danger); font-size: 13px; }
+
+.historico__table {
+  width: 100%;
+
+  th { font-size: 11px; text-transform: uppercase; color: var(--dl-gray-500); }
+  td { font-size: 13px; }
+}
+
+.historico__chip {
+  display: inline-flex;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 999px;
+}
+
+.chip-boa { background: #E4F6EC; color: var(--dl-success); }
+.chip-regular { background: #FFF4E0; color: var(--dl-warning); }
+.chip-ruim { background: #FCEBEB; color: var(--dl-danger); }

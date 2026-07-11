@@ -1,0 +1,57 @@
+.cobrancas {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.cobrancas__header, .cobrancas__table-card { padding: 20px; }
+
+.cobrancas__header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+}
+
+.cobrancas__header-actions {
+  display: flex;
+  gap: 10px;
+}
+
+h3 { margin: 0 0 4px; font-size: 15px; }
+
+.cobrancas__filters {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+
+  mat-form-field { min-width: 200px; }
+}
+
+.cobrancas__error { color: var(--dl-danger); font-size: 13px; }
+
+.cobrancas__table-scroll {
+  overflow-x: auto;
+}
+
+.cobrancas__table {
+  width: 100%;
+
+  th { font-size: 11px; text-transform: uppercase; color: var(--dl-gray-500); }
+  td { font-size: 13px; }
+}
+
+.cobrancas__chip {
+  display: inline-flex;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 999px;
+}
+
+.chip-pendente { background: #FFF4E0; color: var(--dl-warning); }
+.chip-enviada { background: #E8ECFB; color: #4C5FD5; }
+.chip-paga { background: #E4F6EC; color: var(--dl-success); }
+.chip-atrasada { background: #FCEBEB; color: var(--dl-danger); }

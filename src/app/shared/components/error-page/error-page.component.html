@@ -1,0 +1,11 @@
+<div class="error-page" role="alert">
+  <div class="error-page__icon">
+    <mat-icon>{{ icone }}</mat-icon>
+  </div>
+  @if (codigo) {
+    <span class="error-page__code">{{ codigo }}</span>
+  }
+  <h1 class="error-page__title">{{ titulo }}</h1>
+  <p class="error-page__desc">{{ descricao }}</p>
+  <a mat-flat-button color="primary" [routerLink]="rotaBotao">{{ textoBotao }}</a>
+</div>

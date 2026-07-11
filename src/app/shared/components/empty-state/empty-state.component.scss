@@ -1,0 +1,17 @@
+.dl-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--dl-gray-500);
+}
+
+.dl-empty__icon {
+  font-size: 36px;
+  color: var(--dl-gold);
+  margin-bottom: 8px;
+}
+
+.dl-empty h4 { margin: 4px 0; color: var(--dl-gray-900); }
+.dl-empty p { margin: 0; font-size: 13px; max-width: 280px; }

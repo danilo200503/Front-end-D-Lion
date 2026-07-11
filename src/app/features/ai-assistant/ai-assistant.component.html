@@ -1,0 +1,78 @@
+<div class="ia">
+  <mat-card class="dl-card ia__intro">
+    <div class="ia__intro-icon">
+      <mat-icon>psychology</mat-icon>
+    </div>
+    <div>
+      <h3>IA Fiscal D-LION</h3>
+      <p class="dl-text-muted">
+        Uma ferramenta de análise, não um chat: escolha um documento fiscal já enviado
+        e deixe a IA calcular o Score Fiscal e apontar inconsistências.
+      </p>
+    </div>
+  </mat-card>
+
+  <div class="ia__grid">
+    <mat-card class="dl-card ia__doc-picker">
+      <h4>Escolha um documento</h4>
+      @if (documentos().length === 0) {
+        <p class="dl-text-muted">Nenhum documento fiscal enviado ainda.</p>
+      } @else {
+        <ul class="ia__doc-list">
+          @for (doc of documentos(); track doc.id) {
+            <li
+              [class.ia__doc-item--active]="documentoSelecionadoId() === doc.id"
+              (click)="selecionarDocumento(doc.id)"
+            >
+              <mat-icon>description</mat-icon>
+              <span>{{ doc.nomeArquivo }}</span>
+            </li>
+          }
+        </ul>
+      }
+
+      <button
+        mat-flat-button
+        color="primary"
+        class="ia__analyze-btn"
+        [disabled]="!documentoSelecionadoId() || analisando()"
+        (click)="analisar()"
+      >
+        {{ analisando() ? 'Analisando XML...' : 'Analisar com IA' }}
+      </button>
+
+      @if (analisando()) {
+        <mat-progress-bar mode="indeterminate" class="ia__progress"></mat-progress-bar>
+      }
+    </mat-card>
+
+    <mat-card class="dl-card ia__results">
+      @if (resultado(); as res) {
+        <div class="ia__score-row">
+          <div class="ia__score-value">{{ res.score }}</div>
+          <span class="ia__chip" [ngClass]="corClassificacao(res.classificacao)">{{ res.classificacao }}</span>
+        </div>
+
+        <h4>Inconsistências ({{ res.totalErros }})</h4>
+        @if (res.erros.length === 0) {
+          <p class="dl-text-muted">Nenhuma inconsistência encontrada. 🎉</p>
+        } @else {
+          <ul class="ia__list">
+            @for (erro of res.erros; track erro.descricao) {
+              <li>
+                <div class="ia__list-header">
+                  <span class="ia__chip ia__chip-tipo">{{ erro.tipo }}</span>
+                  <strong>{{ erro.descricao }}</strong>
+                </div>
+                <p class="dl-text-muted">{{ erro.explicacao }}</p>
+                <p class="ia__correcao"><mat-icon>tips_and_updates</mat-icon> {{ erro.correcao }}</p>
+              </li>
+            }
+          </ul>
+        }
+      } @else {
+        <p class="dl-text-muted">Selecione um documento e clique em "Analisar com IA" para ver os resultados aqui.</p>
+      }
+    </mat-card>
+  </div>
+</div>

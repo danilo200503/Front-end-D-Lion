@@ -1,0 +1,71 @@
+<div class="upload-page">
+  <div class="dl-card upload-dropzone-wrap">
+    <h3>Documentos Fiscais</h3>
+    <p class="dl-text-muted">Envie os arquivos XML das suas notas fiscais para processamento automático.</p>
+
+    @if (erroCarregamento()) {
+      <div class="upload-alert">
+        <span class="material-icons">error_outline</span>
+        <span>{{ erroCarregamento() }}</span>
+      </div>
+    }
+
+    <div
+      class="upload-dropzone"
+      [class.upload-dropzone--active]="isDragOver()"
+      (dragover)="onDragOver($event)"
+      (dragleave)="onDragLeave()"
+      (drop)="onDrop($event)"
+    >
+      <span class="material-icons upload-dropzone__icon">cloud_upload</span>
+      <p>Arraste e solte o arquivo XML aqui</p>
+      <label class="upload-dropzone__btn">
+        {{ enviando() ? 'Enviando...' : 'Ou clique para selecionar o XML' }}
+        <input type="file" multiple accept=".xml" hidden [disabled]="enviando()" (change)="onFileSelected($event)" />
+      </label>
+    </div>
+  </div>
+
+  <div class="dl-card upload-history">
+    <h3>Documentos Enviados</h3>
+
+    @if (carregando()) {
+      <p class="dl-text-muted">Carregando documentos...</p>
+    } @else if (historico.length === 0) {
+      <dl-empty-state
+        icon="folder_open"
+        title="Nenhum documento enviado"
+        description="Os arquivos XML que você enviar aparecerão aqui."
+      ></dl-empty-state>
+    } @else {
+      <ul class="upload-history__list">
+        @for (arquivo of historico; track arquivo.id) {
+          <li>
+            <span class="material-icons upload-history__file-icon">description</span>
+            <div class="upload-history__info">
+              <span class="upload-history__name">{{ arquivo.nomeArquivo }}</span>
+              <span class="dl-text-muted upload-history__meta">
+                {{ arquivo.empresa ?? 'Empresa não identificada' }}
+              </span>
+            </div>
+
+            <div class="upload-history__status">
+              @if (arquivo.status === 'PROCESSANDO') {
+                <div class="upload-history__progress-track">
+                  <div class="upload-history__progress-fill upload-history__progress-fill--indeterminate"></div>
+                </div>
+              } @else {
+                <span
+                  class="upload-history__badge"
+                  [class.upload-history__badge--erro]="arquivo.status === 'ERRO'"
+                >
+                  {{ statusLabel(arquivo.status) }}
+                </span>
+              }
+            </div>
+          </li>
+        }
+      </ul>
+    }
+  </div>
+</div>

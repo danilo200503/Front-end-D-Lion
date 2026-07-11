@@ -1,0 +1,54 @@
+.envios {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.envios__header, .envios__table-card { padding: 20px; }
+
+.envios__header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+}
+
+h3 { margin: 0 0 4px; font-size: 15px; }
+
+.envios__filters {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+
+  mat-form-field { min-width: 180px; }
+}
+
+.envios__error { color: var(--dl-danger); font-size: 13px; }
+
+.envios__table-scroll {
+  overflow-x: auto;
+}
+
+.envios__table {
+  width: 100%;
+
+  th { font-size: 11px; text-transform: uppercase; color: var(--dl-gray-500); }
+  td { font-size: 13px; }
+}
+
+.envios__chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 999px;
+
+  mat-icon { font-size: 14px; height: 14px; width: 14px; }
+}
+
+.envios__chip--email { background: #E8ECFB; color: #4C5FD5; }
+.envios__chip--whatsapp { background: #E4F6EC; color: var(--dl-success); }

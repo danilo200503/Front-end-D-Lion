@@ -1,0 +1,130 @@
+.ia__intro {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px;
+  margin-bottom: 16px;
+}
+
+.ia__intro-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--dl-gold-light);
+  color: var(--dl-gold-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+h3 { margin: 0 0 4px; font-size: 16px; }
+h4 { margin: 16px 0 8px; font-size: 13px; color: var(--dl-gray-700); }
+
+.ia__grid {
+  display: grid;
+  grid-template-columns: 1fr 1.6fr;
+  gap: 16px;
+
+  @media (max-width: 1000px) { grid-template-columns: 1fr; }
+}
+
+.ia__doc-picker, .ia__results { padding: 20px; }
+
+.ia__doc-list {
+  list-style: none;
+  margin: 12px 0 16px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  li {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px;
+    border-radius: 8px;
+    background: var(--dl-gray-100);
+    font-size: 13px;
+    cursor: pointer;
+    border: 1px solid transparent;
+
+    mat-icon { color: var(--dl-gold-dark); font-size: 18px; height: 18px; width: 18px; }
+  }
+}
+
+.ia__doc-item--active {
+  border-color: var(--dl-gold);
+  background: var(--dl-gold-light);
+}
+
+.ia__analyze-btn { width: 100%; }
+.ia__progress { margin-top: 10px; }
+
+.ia__score-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 8px;
+}
+
+.ia__score-value {
+  font-size: 32px;
+  font-weight: 700;
+  font-family: var(--dl-font-display);
+  color: var(--dl-gray-900);
+}
+
+.ia__chip {
+  display: inline-flex;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 5px 12px;
+  border-radius: 999px;
+}
+
+.ia__chip-tipo {
+  background: var(--dl-gold-light);
+  color: var(--dl-gold-dark);
+}
+
+.chip-boa { background: #E4F6EC; color: var(--dl-success); }
+.chip-regular { background: #FFF4E0; color: var(--dl-warning); }
+.chip-ruim { background: #FCEBEB; color: var(--dl-danger); }
+
+.ia__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  li {
+    padding: 12px;
+    border-radius: 10px;
+    background: var(--dl-gray-100);
+    font-size: 13px;
+  }
+}
+
+.ia__list-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+
+  strong { font-size: 13px; }
+}
+
+.ia__correcao {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  margin: 6px 0 0;
+  font-size: 12px;
+  color: var(--dl-gray-700);
+
+  mat-icon { font-size: 16px; height: 16px; width: 16px; color: var(--dl-gold-dark); }
+}
