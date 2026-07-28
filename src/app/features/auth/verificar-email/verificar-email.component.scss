@@ -1,0 +1,38 @@
+.cartao-verificacao {
+  text-align: center;
+  max-width: 380px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.cartao-verificacao__icone {
+  font-size: 46px;
+  margin-bottom: 10px;
+}
+
+.cartao-verificacao__icone--girando {
+  color: var(--dl-gold);
+  animation: girar 1.1s linear infinite;
+}
+
+.cartao-verificacao__icone--sucesso {
+  color: #2E9B5A;
+}
+
+.cartao-verificacao__icone--erro {
+  color: var(--dl-danger);
+}
+
+.cartao-verificacao__rodape {
+  margin-top: 18px;
+  font-size: 13px;
+
+  a { color: var(--dl-gold-dark); font-weight: 600; }
+}
+
+@keyframes girar {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}

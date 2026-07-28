@@ -5,10 +5,15 @@ export const routes: Routes = [
   {
     path: '',
     loadComponent: () =>
+      import('./features/landing/landing.component').then((m) => m.LandingComponent),
+    title: 'D-LION | Gestão contábil inteligente',
+  },
+  {
+    path: '',
+    loadComponent: () =>
       import('./layout/auth-layout/auth-layout.component').then((m) => m.AuthLayoutComponent),
     canActivate: [guestGuard],
     children: [
-      { path: '', redirectTo: 'login', pathMatch: 'full' },
       {
         path: 'login',
         loadComponent: () =>
@@ -28,6 +33,30 @@ export const routes: Routes = [
             (m) => m.ForgotPasswordComponent
           ),
         title: 'D-LION | Recuperar senha',
+      },
+      {
+        path: 'verificar-email',
+        loadComponent: () =>
+          import('./features/auth/verificar-email/verificar-email.component').then(
+            (m) => m.VerificarEmailComponent
+          ),
+        title: 'D-LION | Verificar e-mail',
+      },
+      {
+        path: 'redefinir-senha',
+        loadComponent: () =>
+          import('./features/auth/redefinir-senha/redefinir-senha.component').then(
+            (m) => m.RedefinirSenhaComponent
+          ),
+        title: 'D-LION | Redefinir senha',
+      },
+      {
+        path: 'oauth/callback',
+        loadComponent: () =>
+          import('./features/auth/oauth-callback/oauth-callback.component').then(
+            (m) => m.OauthCallbackComponent
+          ),
+        title: 'D-LION | Entrando...',
       },
     ],
   },
@@ -85,6 +114,16 @@ export const routes: Routes = [
         path: 'cobrancas',
         loadChildren: () =>
           import('./features/cobrancas/cobrancas.routes').then((m) => m.COBRANCAS_ROUTES),
+      },
+      {
+        path: 'lancamentos',
+        loadChildren: () =>
+          import('./features/lancamentos/lancamentos.routes').then((m) => m.LANCAMENTOS_ROUTES),
+      },
+      {
+        path: 'apuracao',
+        loadChildren: () =>
+          import('./features/apuracao/apuracao.routes').then((m) => m.APURACAO_ROUTES),
       },
       {
         path: 'perfil',

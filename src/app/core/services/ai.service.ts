@@ -19,6 +19,15 @@ export class AiService {
       );
   }
 
+  explicarComIA(documentoId: string): Observable<string> {
+    return this.http
+      .post<ApiResponse<{ explicacao: string }>>(`${this.baseUrl}/explicar`, { documentoId })
+      .pipe(
+        map((res) => res.data.explicacao),
+        catchError((erro) => this.tratarErro(erro))
+      );
+  }
+
   private tratarErro(erro: unknown) {
     const mensagem =
       (erro as { error?: ApiResponse<unknown> & { message?: string } })?.error?.message ??

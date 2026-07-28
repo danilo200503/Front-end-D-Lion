@@ -1,6 +1,6 @@
 export type FiscalDocumentStatus = 'PROCESSANDO' | 'CONCLUIDO' | 'ERRO';
 
-export type TipoDocumentoFiscal = 'NFE' | 'CTE';
+export type TipoDocumentoFiscal = 'NFE' | 'NFCE' | 'CTE' | 'MDFE' | 'NFSE';
 
 export interface ImpostoFiscal {
   tipo: string;

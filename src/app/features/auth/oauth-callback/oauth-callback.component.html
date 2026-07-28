@@ -1,0 +1,12 @@
+<div class="cartao-oauth">
+  @if (!erro()) {
+    <span class="material-icons cartao-oauth__icone">autorenew</span>
+    <h1 class="dl-display">Entrando...</h1>
+    <p class="dl-text-muted">Só um instante enquanto confirmamos sua conta Google.</p>
+  } @else {
+    <span class="material-icons cartao-oauth__icone-erro">error</span>
+    <h1 class="dl-display">Não foi possível entrar</h1>
+    <p class="dl-text-muted">Tente novamente pela tela de login.</p>
+    <p class="cartao-oauth__rodape"><a routerLink="/login">Voltar para o login</a></p>
+  }
+</div>

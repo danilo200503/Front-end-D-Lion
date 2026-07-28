@@ -1,0 +1,32 @@
+<div class="cartao-redefinir">
+  @if (!concluido()) {
+    <h1 class="dl-display">Criar nova senha</h1>
+    <p class="dl-text-muted">Escolha uma nova senha para sua conta.</p>
+
+    <form [formGroup]="form" (ngSubmit)="enviar()" class="formulario-redefinir">
+      <label class="formulario-redefinir__campo">
+        <span>Nova senha</span>
+        <input type="password" formControlName="novaSenha" placeholder="Digite a nova senha" />
+        @if (form.controls.novaSenha.touched && form.controls.novaSenha.invalid) {
+          <small class="formulario-redefinir__erro">A senha deve ter ao menos 4 caracteres.</small>
+        }
+      </label>
+
+      @if (mensagemErro()) {
+        <div class="formulario-redefinir__alerta">{{ mensagemErro() }}</div>
+      }
+
+      <button type="submit" class="formulario-redefinir__enviar" [disabled]="carregando() || !token()">
+        {{ carregando() ? 'Salvando...' : 'Redefinir senha' }}
+      </button>
+    </form>
+
+    <p class="cartao-redefinir__rodape">
+      <a routerLink="/login">Voltar para o login</a>
+    </p>
+  } @else {
+    <span class="material-icons cartao-redefinir__icone-sucesso">check_circle</span>
+    <h1 class="dl-display">Senha redefinida!</h1>
+    <p class="dl-text-muted">Redirecionando para o login...</p>
+  }
+</div>

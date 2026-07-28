@@ -1,18 +1,20 @@
-.cartao-cadastro {
+.cartao-redefinir {
   width: 100%;
   max-width: 380px;
+  text-align: center;
 }
 
-.cartao-cadastro h1 { font-size: 26px; margin: 0 0 4px; }
-.cartao-cadastro > p { margin: 0 0 28px; font-size: 14px; }
+.cartao-redefinir h1 { font-size: 24px; margin: 0 0 4px; }
+.cartao-redefinir > p { margin: 0 0 24px; font-size: 14px; }
 
-.formulario-cadastro {
+.formulario-redefinir {
   display: flex;
   flex-direction: column;
   gap: 18px;
+  text-align: left;
 }
 
-.formulario-cadastro__campo {
+.formulario-redefinir__campo {
   display: flex;
   flex-direction: column;
   gap: 6px;
@@ -33,9 +35,9 @@
   }
 }
 
-.formulario-cadastro__erro { color: var(--dl-danger); font-weight: 500; }
+.formulario-redefinir__erro { color: var(--dl-danger); font-weight: 500; }
 
-.formulario-cadastro__alerta {
+.formulario-redefinir__alerta {
   background: #FCEBEB;
   color: var(--dl-danger);
   border-radius: 8px;
@@ -43,7 +45,7 @@
   font-size: 13px;
 }
 
-.formulario-cadastro__enviar {
+.formulario-redefinir__enviar {
   margin-top: 6px;
   border: none;
   border-radius: 10px;
@@ -59,31 +61,16 @@
   &:disabled { opacity: 0.6; cursor: not-allowed; }
 }
 
-.cartao-cadastro__rodape {
+.cartao-redefinir__rodape {
   text-align: center;
-  margin-top: 24px;
+  margin-top: 22px;
   font-size: 13px;
-  color: var(--dl-gray-500);
 
   a { color: var(--dl-gold-dark); font-weight: 600; }
 }
 
-.cartao-cadastro__confirmacao {
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
-}
-
-.cartao-cadastro__icone {
-  font-size: 42px;
-  color: var(--dl-gold);
-  margin-bottom: 8px;
-}
-
-.cartao-cadastro__aviso-sucesso {
-  color: var(--dl-gold-dark);
-  font-weight: 600;
-  font-size: 13px;
+.cartao-redefinir__icone-sucesso {
+  font-size: 46px;
+  color: #2E9B5A;
+  margin-bottom: 10px;
 }

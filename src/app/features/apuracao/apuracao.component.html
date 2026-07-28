@@ -1,0 +1,82 @@
+<div class="apuracao">
+  <div class="apuracao__header">
+    <div>
+      <h1 class="dl-display">Apuração</h1>
+      <p class="dl-text-muted">Calcule os tributos devidos no período. Ferramenta de apoio — valide sempre com o contador responsável.</p>
+    </div>
+    <button mat-flat-button color="primary" (click)="abrirNovaApuracao()">
+      <mat-icon>calculate</mat-icon> Nova Apuração
+    </button>
+  </div>
+
+  <mat-card class="dl-card apuracao__table-card">
+    @if (carregando()) {
+      <p class="dl-text-muted">Carregando apurações...</p>
+    } @else if (erro()) {
+      <p class="apuracao__error">{{ erro() }}</p>
+    } @else if (apuracoes().length === 0) {
+      <p class="dl-text-muted">Nenhuma apuração calculada ainda.</p>
+    } @else {
+      <div class="apuracao__table-scroll">
+      <table mat-table [dataSource]="apuracoes()" class="apuracao__table">
+        <ng-container matColumnDef="competencia">
+          <th mat-header-cell *matHeaderCellDef>Competência</th>
+          <td mat-cell *matCellDef="let a">{{ a.competencia }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="regimeTributario">
+          <th mat-header-cell *matHeaderCellDef>Regime</th>
+          <td mat-cell *matCellDef="let a">{{ rotuloRegime(a.regimeTributario) }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="totalDebitos">
+          <th mat-header-cell *matHeaderCellDef>Débitos</th>
+          <td mat-cell *matCellDef="let a">{{ formatarValor(a.totalDebitos) }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="totalCreditos">
+          <th mat-header-cell *matHeaderCellDef>Créditos</th>
+          <td mat-cell *matCellDef="let a">{{ formatarValor(a.totalCreditos) }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="valorApurado">
+          <th mat-header-cell *matHeaderCellDef>Valor a recolher</th>
+          <td mat-cell *matCellDef="let a"><strong>{{ formatarValor(a.valorApurado) }}</strong></td>
+        </ng-container>
+
+        <ng-container matColumnDef="acoes">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let a">
+            <button
+              mat-icon-button
+              matTooltip="Explicar com IA"
+              [disabled]="explicandoId() === a.id"
+              (click)="explicarComIA(a)"
+            >
+              <mat-icon>auto_awesome</mat-icon>
+            </button>
+            <button mat-icon-button matTooltip="Excluir" (click)="excluirApuracao(a)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="colunas"></tr>
+        <tr mat-row *matRowDef="let row; columns: colunas"></tr>
+      </table>
+      </div>
+
+      @for (a of apuracoes(); track a.id) {
+        @if (explicacaoAberta() === a.id && a.explicacaoIA) {
+          <div class="apuracao__explicacao-ia">
+            <div class="apuracao__explicacao-ia-titulo">
+              <mat-icon>auto_awesome</mat-icon>
+              <span>Explicação da IA — {{ a.competencia }}</span>
+            </div>
+            <p>{{ a.explicacaoIA }}</p>
+          </div>
+        }
+      }
+    }
+  </mat-card>
+</div>

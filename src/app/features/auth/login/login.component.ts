@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink, ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
+import { environment } from '@env/environment';
 
 @Component({
   selector: 'dl-login',
@@ -21,6 +22,9 @@ export class LoginComponent {
   readonly errorMessage = signal<string | null>(null);
   readonly hidePassword = signal(true);
   readonly showTermos = signal(false);
+  readonly emailNaoVerificado = signal(false);
+  readonly reenviando = signal(false);
+  readonly reenviado = signal(false);
 
   readonly form = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
@@ -45,6 +49,7 @@ export class LoginComponent {
 
     this.loading.set(true);
     this.errorMessage.set(null);
+    this.emailNaoVerificado.set(false);
 
     const { email, senha, aceitaTermos } = this.form.getRawValue();
 
@@ -59,11 +64,28 @@ export class LoginComponent {
         const redirectTo = this.route.snapshot.queryParamMap.get('redirectTo');
         this.router.navigateByUrl(redirectTo ?? '/dashboard');
       },
-      error: () => {
-        this.errorMessage.set('E-mail ou senha inválidos. Tente novamente.');
+      error: (erro) => {
+        const mensagem: string = erro?.message ?? 'E-mail ou senha inválidos. Tente novamente.';
+        this.errorMessage.set(mensagem);
+        this.emailNaoVerificado.set(mensagem.toLowerCase().includes('não foi verificado'));
         this.loading.set(false);
       },
       complete: () => this.loading.set(false),
     });
+  }
+
+  reenviarVerificacao(): void {
+    const email = this.form.getRawValue().email;
+    if (!email) return;
+
+    this.reenviando.set(true);
+    this.auth.reenviarVerificacao(email).subscribe({
+      next: () => this.reenviado.set(true),
+      complete: () => this.reenviando.set(false),
+    });
+  }
+
+  entrarComGoogle(): void {
+    window.location.href = `${environment.apiUrl}/auth/google`;
   }
 }

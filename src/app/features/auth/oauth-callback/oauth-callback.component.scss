@@ -1,0 +1,33 @@
+.cartao-oauth {
+  text-align: center;
+  max-width: 360px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.cartao-oauth__icone {
+  font-size: 44px;
+  color: var(--dl-gold);
+  margin-bottom: 10px;
+  animation: girar-oauth 1.1s linear infinite;
+}
+
+.cartao-oauth__icone-erro {
+  font-size: 44px;
+  color: var(--dl-danger);
+  margin-bottom: 10px;
+}
+
+.cartao-oauth__rodape {
+  margin-top: 18px;
+  font-size: 13px;
+
+  a { color: var(--dl-gold-dark); font-weight: 600; }
+}
+
+@keyframes girar-oauth {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}

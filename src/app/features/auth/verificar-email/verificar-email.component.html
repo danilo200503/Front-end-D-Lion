@@ -1,0 +1,18 @@
+<div class="cartao-verificacao">
+  @if (estado() === 'verificando') {
+    <span class="material-icons cartao-verificacao__icone cartao-verificacao__icone--girando">autorenew</span>
+    <h1 class="dl-display">Verificando seu e-mail...</h1>
+    <p class="dl-text-muted">Isso leva só um instante.</p>
+  } @else if (estado() === 'sucesso') {
+    <span class="material-icons cartao-verificacao__icone cartao-verificacao__icone--sucesso">check_circle</span>
+    <h1 class="dl-display">E-mail confirmado!</h1>
+    <p class="dl-text-muted">Sua conta foi ativada. Redirecionando para o Dashboard...</p>
+  } @else {
+    <span class="material-icons cartao-verificacao__icone cartao-verificacao__icone--erro">error</span>
+    <h1 class="dl-display">Não foi possível verificar</h1>
+    <p class="dl-text-muted">{{ mensagemErro() }}</p>
+    <p class="cartao-verificacao__rodape">
+      <a routerLink="/cadastro">Voltar ao cadastro</a> ou <a routerLink="/login">fazer login</a>
+    </p>
+  }
+</div>

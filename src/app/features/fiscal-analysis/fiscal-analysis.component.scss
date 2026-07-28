@@ -168,3 +168,49 @@ h4 { margin: 18px 0 8px; font-size: 13px; color: var(--dl-gray-700); }
 .fiscal__pdf-btn {
   margin-top: 16px;
 }
+
+.fiscal__acoes-ia {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+
+.fiscal__explicar-btn {
+  background: var(--dl-gold) !important;
+  color: var(--dl-black) !important;
+}
+
+.fiscal__explicacao-erro {
+  color: var(--dl-danger);
+  font-size: 13px;
+  margin-top: 10px;
+}
+
+.fiscal__explicacao-ia {
+  margin-top: 16px;
+  background: var(--dl-gold-light);
+  border: 1px solid var(--dl-gold);
+  border-radius: 12px;
+  padding: 16px 18px;
+}
+
+.fiscal__explicacao-ia-titulo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  font-size: 13.5px;
+  color: var(--dl-gold-dark);
+  margin-bottom: 8px;
+
+  mat-icon { font-size: 18px; height: 18px; width: 18px; }
+}
+
+.fiscal__explicacao-ia-texto {
+  font-size: 13.5px;
+  color: var(--dl-gray-900);
+  line-height: 1.65;
+  white-space: pre-line;
+  margin: 0;
+}

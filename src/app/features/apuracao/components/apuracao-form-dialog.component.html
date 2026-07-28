@@ -1,0 +1,58 @@
+<h2 mat-dialog-title>Nova Apuração</h2>
+
+<form [formGroup]="form" (ngSubmit)="salvar()">
+  <mat-dialog-content class="dl-dialog-content">
+    <mat-form-field appearance="outline" class="dl-full-width">
+      <mat-label>Competência</mat-label>
+      <input matInput type="month" formControlName="competencia" required />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="dl-full-width">
+      <mat-label>Regime tributário</mat-label>
+      <mat-select formControlName="regimeTributario">
+        <mat-option value="SIMPLES_NACIONAL">Simples Nacional</mat-option>
+        <mat-option value="LUCRO_PRESUMIDO">Lucro Presumido</mat-option>
+        <mat-option value="LUCRO_REAL">Lucro Real</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="dl-full-width">
+      <mat-label>Receita bruta do mês</mat-label>
+      <input matInput type="number" step="0.01" formControlName="receitaBrutaPeriodo" required />
+    </mat-form-field>
+
+    @if (ehSimplesNacional()) {
+      <mat-form-field appearance="outline" class="dl-full-width">
+        <mat-label>Anexo do Simples Nacional</mat-label>
+        <mat-select formControlName="anexoSimples">
+          <mat-option value="I">Anexo I — Comércio</mat-option>
+          <mat-option value="III">Anexo III — Serviços</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="dl-full-width">
+        <mat-label>Receita bruta últimos 12 meses (RBT12)</mat-label>
+        <input matInput type="number" step="0.01" formControlName="receitaBrutaUltimos12Meses" required />
+      </mat-form-field>
+    } @else {
+      <mat-form-field appearance="outline" class="dl-full-width">
+        <mat-label>Total de débitos do período</mat-label>
+        <input matInput type="number" step="0.01" formControlName="totalDebitos" required />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="dl-full-width">
+        <mat-label>Total de créditos do período</mat-label>
+        <input matInput type="number" step="0.01" formControlName="totalCreditos" required />
+      </mat-form-field>
+    }
+
+    <p class="dl-text-muted apuracao-dialog__aviso">
+      Ferramenta de apoio ao cálculo. Valide sempre o resultado com o contador responsável antes de recolher.
+    </p>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button type="button" (click)="cancelar()">Cancelar</button>
+    <button mat-flat-button color="primary" type="submit">Calcular</button>
+  </mat-dialog-actions>
+</form>

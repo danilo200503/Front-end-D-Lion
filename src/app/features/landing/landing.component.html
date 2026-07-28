@@ -1,0 +1,152 @@
+<div class="landing">
+  <nav class="landing__navbar">
+    <a routerLink="/" class="landing__marca">
+      <img src="assets/imagens/logo-leao.jpg" alt="D-LION" class="landing__logo-icone" />
+      <span>D-LION</span>
+    </a>
+
+    <button type="button" class="landing__hamburguer" (click)="alternarMenu()" aria-label="Abrir menu">
+      <span class="material-icons">{{ menuAberto() ? 'close' : 'menu' }}</span>
+    </button>
+
+    <div class="landing__links" [class.landing__links--aberto]="menuAberto()">
+      <a href="#quem-somos" (click)="fecharMenu()">Quem somos</a>
+      <a href="#o-que-fazemos" (click)="fecharMenu()">O que fazemos</a>
+      <a href="#diferencial" (click)="fecharMenu()">Diferencial</a>
+      <a href="#reforma-tributaria" (click)="fecharMenu()">Reforma tributária</a>
+
+      <div class="landing__acoes-mobile">
+        <a routerLink="/login" class="landing__botao landing__botao--fantasma" (click)="fecharMenu()">Entrar</a>
+        <button type="button" class="landing__botao landing__botao--google" (click)="entrarComGoogle()">
+          <span class="material-icons">g_translate</span> Entrar com Google
+        </button>
+        <a routerLink="/cadastro" class="landing__botao landing__botao--ouro" (click)="fecharMenu()">Cadastre-se</a>
+      </div>
+    </div>
+
+    <div class="landing__acoes-desktop">
+      <a routerLink="/login" class="landing__botao landing__botao--fantasma">Entrar</a>
+      <button type="button" class="landing__botao landing__botao--google" (click)="entrarComGoogle()">
+        <span class="material-icons">g_translate</span> Google
+      </button>
+      <a routerLink="/cadastro" class="landing__botao landing__botao--ouro">Cadastre-se</a>
+    </div>
+  </nav>
+
+  <section class="landing__hero">
+    <p class="landing__eyebrow">Gestão contábil inteligente</p>
+    <h1 class="landing__titulo">Dados que falam.<br>Decisões que transformam.</h1>
+    <p class="landing__subtitulo">
+      Auditoria automática de notas fiscais, cobrança de clientes e organização financeira
+      do seu escritório contábil, tudo em um só lugar.
+    </p>
+    <div class="landing__cta-grupo">
+      <a routerLink="/cadastro" class="landing__botao landing__botao--ouro landing__botao--grande">Criar conta gratuita</a>
+      <a routerLink="/login" class="landing__botao landing__botao--fantasma landing__botao--grande">Já tenho conta</a>
+    </div>
+  </section>
+
+  <section id="quem-somos" class="landing__secao">
+    <p class="landing__eyebrow">Quem somos</p>
+    <h2 class="landing__titulo-secao">Uma ferramenta feita para o contador que atende sozinho</h2>
+    <p class="landing__texto">
+      O D-LION nasceu para resolver um problema recorrente de pequenos e médios escritórios contábeis:
+      revisar nota fiscal e cobrar cliente inadimplente ainda são tarefas manuais, lentas e sem apoio
+      de ferramenta acessível. Reunimos auditoria fiscal, geração de relatórios e cobrança automática
+      numa única plataforma simples de usar — sem contrato, sem integração de ERP, sem burocracia.
+    </p>
+  </section>
+
+  <section id="o-que-fazemos" class="landing__secao landing__secao--creme">
+    <p class="landing__eyebrow">O que fazemos</p>
+    <h2 class="landing__titulo-secao">Quatro problemas, uma plataforma</h2>
+    <div class="landing__grade">
+      <div class="landing__cartao">
+        <span class="material-icons landing__icone">description</span>
+        <p class="landing__cartao-titulo">Auditoria de documentos fiscais</p>
+        <p class="landing__cartao-texto">Upload de NFe, NFC-e, CT-e, MDF-e e NFS-e com verificação automática de erros fiscais e nota de qualidade.</p>
+      </div>
+      <div class="landing__cartao">
+        <span class="material-icons landing__icone">table_chart</span>
+        <p class="landing__cartao-titulo">Relatórios em planilha</p>
+        <p class="landing__cartao-texto">Exportação em Excel pronta para repassar ao cliente ou usar em auditoria interna.</p>
+      </div>
+      <div class="landing__cartao">
+        <span class="material-icons landing__icone">send</span>
+        <p class="landing__cartao-titulo">Cobrança automática</p>
+        <p class="landing__cartao-texto">Envio de cobrança por e-mail e WhatsApp com acompanhamento de status.</p>
+      </div>
+      <div class="landing__cartao">
+        <span class="material-icons landing__icone">smart_toy</span>
+        <p class="landing__cartao-titulo">Assistente de dúvidas</p>
+        <p class="landing__cartao-texto">Suporte opcional por IA para explicar por que um documento teve nota baixa.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="diferencial" class="landing__secao">
+    <p class="landing__eyebrow">Diferencial</p>
+    <h2 class="landing__titulo-secao">O que juntamos, ninguém mais junta</h2>
+    <div class="landing__grade">
+      <div class="landing__destaque">
+        <p class="landing__cartao-titulo">Auditoria + planilha + cobrança</p>
+        <p class="landing__cartao-texto">Cada peça já existe isolada no mercado. Não encontramos concorrente que junte as três no mesmo fluxo.</p>
+      </div>
+      <div class="landing__destaque">
+        <p class="landing__cartao-titulo">Feito para o pequeno escritório</p>
+        <p class="landing__cartao-texto">Sem contrato, sem integração de ERP. Cadastro em menos de um minuto.</p>
+      </div>
+      <div class="landing__destaque">
+        <p class="landing__cartao-titulo">Regras explicáveis, não caixa-preta</p>
+        <p class="landing__cartao-texto">Cada erro encontrado vem com explicação e correção sugerida, auditável por qualquer contador.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="reforma-tributaria" class="landing__secao landing__secao--creme">
+    <p class="landing__eyebrow">Reforma tributária</p>
+    <h2 class="landing__titulo-secao">Prepare seus clientes para o novo modelo</h2>
+    <p class="landing__texto">
+      A reforma tributária (Emenda Constitucional 132/2023) substitui PIS, Cofins, IPI, ICMS e ISS
+      por um novo sistema de tributação sobre o consumo, em transição gradual entre 2026 e 2033.
+      Resumimos os pontos que mais impactam a rotina de um escritório contábil.
+    </p>
+
+    <div class="landing__grade">
+      <div class="landing__cartao">
+        <p class="landing__cartao-titulo">CBS</p>
+        <p class="landing__cartao-texto">Contribuição sobre Bens e Serviços, de competência federal, substitui o PIS e a Cofins.</p>
+      </div>
+      <div class="landing__cartao">
+        <p class="landing__cartao-titulo">IBS</p>
+        <p class="landing__cartao-texto">Imposto sobre Bens e Serviços, de competência estadual e municipal, substitui o ICMS e o ISS.</p>
+      </div>
+      <div class="landing__cartao">
+        <p class="landing__cartao-titulo">Imposto seletivo</p>
+        <p class="landing__cartao-texto">Novo tributo federal sobre produtos prejudiciais à saúde ou ao meio ambiente, como cigarros e bebidas alcoólicas.</p>
+      </div>
+      <div class="landing__cartao">
+        <p class="landing__cartao-titulo">Transição até 2033</p>
+        <p class="landing__cartao-texto">Convivência entre o sistema antigo e o novo, com alíquotas de teste a partir de 2026 e substituição gradual ano a ano.</p>
+      </div>
+    </div>
+
+    <div class="landing__aviso">
+      <span class="material-icons">info</span>
+      <p>
+        Como isso muda o XML da sua nota: os novos documentos fiscais vão incluir os grupos de tributos
+        CBS e IBS ao lado dos tributos atuais durante o período de transição. O D-LION já está sendo
+        preparado para reconhecer e validar esses novos campos assim que entrarem em vigor.
+      </p>
+    </div>
+  </section>
+
+  <section class="landing__cta-final">
+    <p class="landing__cta-final-texto">Pronto para organizar a contabilidade dos seus clientes?</p>
+    <a routerLink="/cadastro" class="landing__botao landing__botao--ouro landing__botao--grande">Criar conta gratuita</a>
+  </section>
+
+  <footer class="landing__rodape">
+    <span>© {{ anoAtual }} D-LION — Sistema Contábil Inteligente</span>
+  </footer>
+</div>

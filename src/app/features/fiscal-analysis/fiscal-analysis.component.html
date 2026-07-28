@@ -45,7 +45,7 @@
           <div><dt>Número / Série</dt><dd>{{ doc.numeroNota ?? '—' }}{{ doc.serie ? ' / ' + doc.serie : '' }}</dd></div>
           <div><dt>Destinatário</dt><dd>{{ doc.destinatario ?? '—' }}</dd></div>
           <div><dt>Valor Total</dt><dd>{{ formatarValor(doc.valorTotal) }}</dd></div>
-          <div><dt>Tipo</dt><dd>{{ doc.tipoDocumento === 'CTE' ? 'CT-e' : 'NF-e' }}</dd></div>
+          <div><dt>Tipo</dt><dd>{{ rotuloTipoDocumento(doc.tipoDocumento) }}</dd></div>
         </dl>
 
         <h4>Impostos Encontrados</h4>
@@ -148,9 +148,36 @@
             </table>
           }
 
-          <button mat-stroked-button color="primary" class="fiscal__pdf-btn" (click)="gerarPdf()">
-            <mat-icon>picture_as_pdf</mat-icon> Gerar PDF
-          </button>
+          <div class="fiscal__acoes-ia">
+            <button mat-stroked-button color="primary" class="fiscal__pdf-btn" (click)="gerarPdf()">
+              <mat-icon>picture_as_pdf</mat-icon> Gerar PDF
+            </button>
+
+            <button
+              mat-flat-button
+              color="accent"
+              class="fiscal__explicar-btn"
+              [disabled]="explicandoComIA()"
+              (click)="explicarComIA()"
+            >
+              <mat-icon>auto_awesome</mat-icon>
+              {{ explicandoComIA() ? 'Gerando explicação...' : 'Explicar com IA' }}
+            </button>
+          </div>
+
+          @if (erroExplicacaoIA()) {
+            <p class="fiscal__explicacao-erro">{{ erroExplicacaoIA() }}</p>
+          }
+
+          @if (explicacaoIA()) {
+            <div class="fiscal__explicacao-ia">
+              <div class="fiscal__explicacao-ia-titulo">
+                <mat-icon>auto_awesome</mat-icon>
+                <span>Explicação da IA</span>
+              </div>
+              <p class="fiscal__explicacao-ia-texto">{{ explicacaoIA() }}</p>
+            </div>
+          }
         </mat-card>
       }
     } @else {

@@ -1,0 +1,82 @@
+<div class="lancamentos">
+  <div class="lancamentos__header">
+    <div>
+      <h1 class="dl-display">Lançamentos Fiscais</h1>
+      <p class="dl-text-muted">Registre notas, cupons, DANFEs e outros documentos como lançamentos contábeis.</p>
+    </div>
+    <button mat-flat-button color="primary" (click)="abrirNovoLancamento()">
+      <mat-icon>add</mat-icon> Novo Lançamento
+    </button>
+  </div>
+
+  <mat-card class="dl-card lancamentos__table-card">
+    @if (carregando()) {
+      <p class="dl-text-muted">Carregando lançamentos...</p>
+    } @else if (erro()) {
+      <p class="lancamentos__error">{{ erro() }}</p>
+    } @else if (lancamentos().length === 0) {
+      <p class="dl-text-muted">Nenhum lançamento registrado ainda.</p>
+    } @else {
+      <div class="lancamentos__table-scroll">
+      <table mat-table [dataSource]="lancamentos()" class="lancamentos__table">
+        <ng-container matColumnDef="tipo">
+          <th mat-header-cell *matHeaderCellDef>Tipo</th>
+          <td mat-cell *matCellDef="let l">{{ rotuloTipo(l.tipo) }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="naturezaOperacao">
+          <th mat-header-cell *matHeaderCellDef>Natureza</th>
+          <td mat-cell *matCellDef="let l">{{ l.naturezaOperacao === 'ENTRADA' ? 'Entrada' : 'Saída' }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="dataCompetencia">
+          <th mat-header-cell *matHeaderCellDef>Competência</th>
+          <td mat-cell *matCellDef="let l">{{ l.dataCompetencia | date: 'dd/MM/yyyy' }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="descricao">
+          <th mat-header-cell *matHeaderCellDef>Descrição</th>
+          <td mat-cell *matCellDef="let l">{{ l.descricao }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="valor">
+          <th mat-header-cell *matHeaderCellDef>Valor</th>
+          <td mat-cell *matCellDef="let l">{{ formatarValor(l.valor) }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="acoes">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let l">
+            <button
+              mat-icon-button
+              matTooltip="Explicar com IA"
+              [disabled]="explicandoId() === l.id"
+              (click)="explicarComIA(l)"
+            >
+              <mat-icon>auto_awesome</mat-icon>
+            </button>
+            <button mat-icon-button matTooltip="Excluir" (click)="excluirLancamento(l)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="colunas"></tr>
+        <tr mat-row *matRowDef="let row; columns: colunas"></tr>
+      </table>
+      </div>
+
+      @for (l of lancamentos(); track l.id) {
+        @if (explicacaoAberta() === l.id && l.explicacaoIA) {
+          <div class="lancamentos__explicacao-ia">
+            <div class="lancamentos__explicacao-ia-titulo">
+              <mat-icon>auto_awesome</mat-icon>
+              <span>Explicação da IA — {{ l.descricao }}</span>
+            </div>
+            <p>{{ l.explicacaoIA }}</p>
+          </div>
+        }
+      }
+    }
+  </mat-card>
+</div>

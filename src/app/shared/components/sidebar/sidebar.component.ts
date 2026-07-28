@@ -30,6 +30,8 @@ export class SidebarComponent {
     { label: 'IA Fiscal', icon: 'psychology', route: '/ia-fiscal' },
     { label: 'Clientes', icon: 'group', route: '/clientes' },
     { label: 'Cobranças', icon: 'request_quote', route: '/cobrancas' },
+    { label: 'Lançamentos Fiscais', icon: 'receipt_long', route: '/lancamentos' },
+    { label: 'Apuração', icon: 'calculate', route: '/apuracao' },
     { label: 'Configurações', icon: 'settings', route: '/configuracoes' },
   ];
 

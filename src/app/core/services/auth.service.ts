@@ -25,6 +25,11 @@ export interface RegisterRequest {
   nomeEmpresa?: string;
 }
 
+export interface RegisterResponse {
+  email: string;
+  emailVerificado: boolean;
+}
+
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private readonly baseUrl = `${environment.apiUrl}/auth`;
@@ -43,21 +48,73 @@ export class AuthService {
     );
   }
 
-  register(payload: RegisterRequest): Observable<LoginResponse> {
-    return this.http.post<ApiResponse<AuthApiResponse>>(`${this.baseUrl}/register`, payload).pipe(
-      map((res) => this.mapAuthResponse(res.data)),
-      tap((res) => this.persistSession(res)),
+  register(payload: RegisterRequest): Observable<RegisterResponse> {
+    return this.http.post<ApiResponse<RegisterResponse>>(`${this.baseUrl}/register`, payload).pipe(
+      map((res) => res.data),
       catchError((erro) => this.tratarErro(erro))
     );
   }
 
-  forgotPassword(payload: ForgotPasswordRequest): Observable<{ enviado: boolean }> {
+  verificarEmail(token: string): Observable<LoginResponse> {
     return this.http
-      .post<ApiResponse<{ enviado: boolean }>>(`${this.baseUrl}/forgot-password`, payload)
+      .post<ApiResponse<AuthApiResponse>>(`${this.baseUrl}/verificar-email`, { token })
+      .pipe(
+        map((res) => this.mapAuthResponse(res.data)),
+        tap((res) => this.persistSession(res)),
+        catchError((erro) => this.tratarErro(erro))
+      );
+  }
+
+  reenviarVerificacao(email: string): Observable<null> {
+    return this.http
+      .post<ApiResponse<null>>(`${this.baseUrl}/reenviar-verificacao`, { email })
       .pipe(
         map((res) => res.data),
         catchError((erro) => this.tratarErro(erro))
       );
+  }
+
+  forgotPassword(payload: ForgotPasswordRequest): Observable<null> {
+    return this.http
+      .post<ApiResponse<null>>(`${this.baseUrl}/esqueci-senha`, payload)
+      .pipe(
+        map((res) => res.data),
+        catchError((erro) => this.tratarErro(erro))
+      );
+  }
+
+  redefinirSenha(token: string, novaSenha: string): Observable<null> {
+    return this.http
+      .post<ApiResponse<null>>(`${this.baseUrl}/redefinir-senha`, { token, novaSenha })
+      .pipe(
+        map((res) => res.data),
+        catchError((erro) => this.tratarErro(erro))
+      );
+  }
+
+  carregarUsuarioAtual(): Observable<User> {
+    return this.http.post<ApiResponse<{ id: string; nome: string; email: string; permissoes: string[] }>>(
+      `${this.baseUrl}/me`,
+      {}
+    ).pipe(
+      map((res) => {
+        const usuario: User = {
+          id: res.data.id,
+          nome: res.data.nome,
+          email: res.data.email,
+          role: (res.data.permissoes?.[0] as User['role']) ?? 'CLIENTE',
+        };
+        this.storage.setUser(usuario);
+        this.currentUserSignal.set(usuario);
+        return usuario;
+      }),
+      catchError((erro) => this.tratarErro(erro))
+    );
+  }
+
+  definirSessao(accessToken: string, refreshToken: string): void {
+    this.storage.setToken(accessToken);
+    this.storage.setRefreshToken(refreshToken);
   }
 
   logout(): void {

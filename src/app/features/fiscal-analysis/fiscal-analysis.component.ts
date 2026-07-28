@@ -48,6 +48,10 @@ export class FiscalAnalysisComponent implements OnInit {
   readonly analisando = signal(false);
   readonly resultado = signal<ResultadoAnaliseFiscal | null>(null);
 
+  readonly explicandoComIA = signal(false);
+  readonly explicacaoIA = signal<string | null>(null);
+  readonly erroExplicacaoIA = signal<string | null>(null);
+
   readonly colunasErros = ['tipo', 'descricao', 'explicacao', 'correcao', 'severidade'];
 
   readonly documentosConcluidos = computed(() =>
@@ -77,6 +81,8 @@ export class FiscalAnalysisComponent implements OnInit {
   selecionar(documento: FiscalDocument): void {
     this.selecionado.set(documento);
     this.resultado.set(null);
+    this.explicacaoIA.set(null);
+    this.erroExplicacaoIA.set(null);
   }
 
   analisarComIa(): void {
@@ -112,6 +118,25 @@ export class FiscalAnalysisComponent implements OnInit {
     this.snackBar.open('Exportação em PDF concluída.', 'Fechar', { duration: 3000 });
   }
 
+  explicarComIA(): void {
+    const doc = this.selecionado();
+    if (!doc) return;
+
+    this.explicandoComIA.set(true);
+    this.erroExplicacaoIA.set(null);
+
+    this.aiService.explicarComIA(doc.id).subscribe({
+      next: (explicacao) => {
+        this.explicacaoIA.set(explicacao);
+        this.explicandoComIA.set(false);
+      },
+      error: (e: Error) => {
+        this.erroExplicacaoIA.set(e.message);
+        this.explicandoComIA.set(false);
+      },
+    });
+  }
+
   readonly tiposDeErroConhecidos = ['CFOP', 'CST', 'ICMS', 'IPI', 'NCM', 'PIS', 'COFINS', 'CADASTRAL'];
 
   temErroDoTipo(erros: { tipo: string }[], tipo: string): boolean {
@@ -121,6 +146,16 @@ export class FiscalAnalysisComponent implements OnInit {
   formatarValor(valor?: number): string {
     if (valor === undefined) return '—';
     return valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+  }
+
+  rotuloTipoDocumento(tipo?: string): string {
+    switch (tipo) {
+      case 'CTE': return 'CT-e';
+      case 'NFCE': return 'NFC-e';
+      case 'MDFE': return 'MDF-e';
+      case 'NFSE': return 'NFS-e';
+      default: return 'NF-e';
+    }
   }
 
   corClassificacao(classificacao?: string): string {

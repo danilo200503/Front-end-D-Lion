@@ -12,13 +12,13 @@ export class FiscalService {
 
     readonly documentos = signal<FiscalDocument[]>([]);
 
-    enviarXml(file: File): Observable<FiscalDocument> {
+    enviarXml(file: File): Observable<FiscalDocument[]> {
     const formData = new FormData();
     formData.append('arquivo', file, file.name);
 
-    return this.http.post<ApiResponse<FiscalDocument>>(`${this.baseUrl}/upload-xml`, formData).pipe(
+    return this.http.post<ApiResponse<FiscalDocument[]>>(`${this.baseUrl}/upload-xml`, formData).pipe(
       map((res) => res.data),
-      tap((documento) => this.documentos.update((lista) => [documento, ...lista])),
+      tap((documentos) => this.documentos.update((lista) => [...documentos, ...lista])),
       catchError((erro) => this.tratarErro(erro))
     );
   }

@@ -79,9 +79,13 @@ export class UploadComponent implements OnInit {
 
     arquivosXml.forEach((file) => {
       this.fiscalService.enviarXml(file).subscribe({
-        next: () => {
+        next: (documentos) => {
           this.enviando.set(false);
-          this.snackBar.open('Upload realizado.', 'Fechar', { duration: 3000 });
+          const mensagem =
+            documentos.length > 1
+              ? `${documentos.length} notas encontradas em "${file.name}" e processadas com sucesso.`
+              : 'Upload realizado.';
+          this.snackBar.open(mensagem, 'Fechar', { duration: 4000 });
         },
         error: (erro: Error) => {
           this.erroCarregamento.set(erro.message);
