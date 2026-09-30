@@ -39,7 +39,7 @@ export class ApuracaoComponent implements OnInit {
   readonly explicandoId = signal<string | null>(null);
   readonly explicacaoAberta = signal<string | null>(null);
 
-  readonly colunas = ['competencia', 'regimeTributario', 'totalDebitos', 'totalCreditos', 'valorApurado', 'acoes'];
+  readonly colunas = ['cliente', 'competencia', 'regimeTributario', 'totalDebitos', 'totalCreditos', 'valorApurado', 'acoes'];
 
   ngOnInit(): void {
     this.carregar();

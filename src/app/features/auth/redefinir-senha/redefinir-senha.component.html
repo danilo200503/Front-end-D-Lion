@@ -6,7 +6,17 @@
     <form [formGroup]="form" (ngSubmit)="enviar()" class="formulario-redefinir">
       <label class="formulario-redefinir__campo">
         <span>Nova senha</span>
-        <input type="password" formControlName="novaSenha" placeholder="Digite a nova senha" />
+        <div class="formulario-redefinir__campo-senha">
+          <input [type]="ocultarSenha() ? 'password' : 'text'" formControlName="novaSenha" placeholder="Digite a nova senha" />
+          <button
+            type="button"
+            class="formulario-redefinir__olho"
+            (click)="ocultarSenha.set(!ocultarSenha())"
+            [attr.aria-label]="ocultarSenha() ? 'Mostrar senha' : 'Ocultar senha'"
+          >
+            <span class="material-icons">{{ ocultarSenha() ? 'visibility' : 'visibility_off' }}</span>
+          </button>
+        </div>
         @if (form.controls.novaSenha.touched && form.controls.novaSenha.invalid) {
           <small class="formulario-redefinir__erro">A senha deve ter ao menos 4 caracteres.</small>
         }

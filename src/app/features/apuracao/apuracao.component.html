@@ -19,6 +19,11 @@
     } @else {
       <div class="apuracao__table-scroll">
       <table mat-table [dataSource]="apuracoes()" class="apuracao__table">
+        <ng-container matColumnDef="cliente">
+          <th mat-header-cell *matHeaderCellDef>Cliente</th>
+          <td mat-cell *matCellDef="let a">{{ a.cliente?.nome ?? '—' }}</td>
+        </ng-container>
+
         <ng-container matColumnDef="competencia">
           <th mat-header-cell *matHeaderCellDef>Competência</th>
           <td mat-cell *matCellDef="let a">{{ a.competencia }}</td>

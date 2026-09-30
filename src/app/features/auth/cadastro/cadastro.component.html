@@ -1,70 +1,57 @@
 <div class="cartao-cadastro">
-  @if (!cadastroConcluido()) {
-    <h1 class="dl-display">Crie sua conta</h1>
-    <p class="dl-text-muted">Cadastro rápido, sem burocracia</p>
+  <h1 class="dl-display">Crie sua conta</h1>
+  <p class="dl-text-muted">Cadastro rápido, sem burocracia</p>
 
-    <form [formGroup]="form" (ngSubmit)="enviar()" class="formulario-cadastro">
-      <label class="formulario-cadastro__campo">
-        <span>Nome</span>
-        <input type="text" formControlName="nome" placeholder="Seu nome completo" />
-        @if (form.controls.nome.touched && form.controls.nome.invalid) {
-          <small class="formulario-cadastro__erro">Informe seu nome.</small>
-        }
-      </label>
+  <form [formGroup]="form" (ngSubmit)="enviar()" class="formulario-cadastro">
+    <label class="formulario-cadastro__campo">
+      <span>Nome</span>
+      <input type="text" formControlName="nome" placeholder="Seu nome completo" />
+      @if (form.controls.nome.touched && form.controls.nome.invalid) {
+        <small class="formulario-cadastro__erro">Informe seu nome.</small>
+      }
+    </label>
 
-      <label class="formulario-cadastro__campo">
-        <span>Empresa (opcional)</span>
-        <input type="text" formControlName="nomeEmpresa" placeholder="Nome da sua empresa" />
-      </label>
+    <label class="formulario-cadastro__campo">
+      <span>Empresa (opcional)</span>
+      <input type="text" formControlName="nomeEmpresa" placeholder="Nome da sua empresa" />
+    </label>
 
-      <label class="formulario-cadastro__campo">
-        <span>E-mail</span>
-        <input type="email" formControlName="email" placeholder="seu@email.com" />
-        @if (form.controls.email.touched && form.controls.email.invalid) {
-          <small class="formulario-cadastro__erro">Informe um e-mail válido.</small>
-        }
-      </label>
+    <label class="formulario-cadastro__campo">
+      <span>E-mail</span>
+      <input type="email" formControlName="email" placeholder="seu@email.com" />
+      @if (form.controls.email.touched && form.controls.email.invalid) {
+        <small class="formulario-cadastro__erro">Informe um e-mail válido.</small>
+      }
+    </label>
 
-      <label class="formulario-cadastro__campo">
-        <span>Senha</span>
+    <label class="formulario-cadastro__campo">
+      <span>Senha</span>
+      <div class="formulario-cadastro__campo-senha">
         <input [type]="ocultarSenha() ? 'password' : 'text'" formControlName="senha" placeholder="Crie uma senha" />
-        @if (form.controls.senha.touched && form.controls.senha.invalid) {
-          <small class="formulario-cadastro__erro">A senha deve ter ao menos 4 caracteres.</small>
-        }
-      </label>
-
-      @if (mensagemErro()) {
-        <div class="formulario-cadastro__alerta">{{ mensagemErro() }}</div>
-      }
-
-      <button type="submit" class="formulario-cadastro__enviar" [disabled]="carregando()">
-        {{ carregando() ? 'Criando conta...' : 'Criar conta' }}
-      </button>
-    </form>
-
-    <p class="cartao-cadastro__rodape">
-      Já tem uma conta? <a routerLink="/login">Entrar</a>
-    </p>
-  } @else {
-    <div class="cartao-cadastro__confirmacao">
-      <span class="material-icons cartao-cadastro__icone">mark_email_read</span>
-      <h1 class="dl-display">Confirme seu e-mail</h1>
-      <p class="dl-text-muted">
-        Enviamos um link de confirmação para <strong>{{ emailCadastrado() }}</strong>.
-        Abra sua caixa de entrada (ou spam) e clique no link para ativar sua conta.
-      </p>
-
-      @if (reenviado()) {
-        <p class="cartao-cadastro__aviso-sucesso">E-mail reenviado com sucesso.</p>
-      } @else {
-        <button type="button" class="formulario-cadastro__enviar" [disabled]="reenviando()" (click)="reenviarEmail()">
-          {{ reenviando() ? 'Reenviando...' : 'Não recebeu? Reenviar e-mail' }}
+        <button
+          type="button"
+          class="formulario-cadastro__olho"
+          (click)="alternarSenha()"
+          [attr.aria-label]="ocultarSenha() ? 'Mostrar senha' : 'Ocultar senha'"
+        >
+          <span class="material-icons">{{ ocultarSenha() ? 'visibility' : 'visibility_off' }}</span>
         </button>
+      </div>
+      @if (form.controls.senha.touched && form.controls.senha.invalid) {
+        <small class="formulario-cadastro__erro">A senha deve ter ao menos 4 caracteres.</small>
       }
+    </label>
 
-      <p class="cartao-cadastro__rodape">
-        <a routerLink="/login">Voltar para o login</a>
-      </p>
-    </div>
-  }
+    @if (mensagemErro()) {
+      <div class="formulario-cadastro__alerta">{{ mensagemErro() }}</div>
+    }
+
+    <button type="submit" class="formulario-cadastro__enviar" [disabled]="carregando()">
+      {{ carregando() ? 'Criando conta...' : 'Criar conta' }}
+    </button>
+  </form>
+
+  <p class="cartao-cadastro__rodape">
+    Já tem uma conta? <a routerLink="/login">Entrar</a>
+  </p>
 </div>

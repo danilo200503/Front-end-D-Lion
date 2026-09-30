@@ -19,6 +19,11 @@
     } @else {
       <div class="lancamentos__table-scroll">
       <table mat-table [dataSource]="lancamentos()" class="lancamentos__table">
+        <ng-container matColumnDef="cliente">
+          <th mat-header-cell *matHeaderCellDef>Cliente</th>
+          <td mat-cell *matCellDef="let l">{{ l.cliente?.nome ?? '—' }}</td>
+        </ng-container>
+
         <ng-container matColumnDef="tipo">
           <th mat-header-cell *matHeaderCellDef>Tipo</th>
           <td mat-cell *matCellDef="let l">{{ rotuloTipo(l.tipo) }}</td>

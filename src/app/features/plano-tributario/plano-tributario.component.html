@@ -1,0 +1,89 @@
+<div class="plano-tributario">
+  <div class="plano-tributario__header">
+    <h1 class="dl-display">Plano Tributário</h1>
+    <p class="dl-text-muted">
+      Selecione um cliente para que a IA trace, com base nos dados já registrados no sistema, um plano estratégico
+      de redução de impostos. É uma sugestão de apoio — sempre valide com o contador responsável.
+    </p>
+  </div>
+
+  <mat-card class="dl-card plano-tributario__gerador">
+    <mat-form-field appearance="outline" class="dl-full-width">
+      <mat-label>Cliente</mat-label>
+      <mat-select [(ngModel)]="clienteSelecionadoId">
+        <mat-option value="">Selecione um cliente</mat-option>
+        @for (cliente of clientes(); track cliente.id) {
+          <mat-option [value]="cliente.id">{{ cliente.nome }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    @if (erroGeracao()) {
+      <p class="plano-tributario__erro">{{ erroGeracao() }}</p>
+    }
+
+    <button mat-flat-button color="primary" [disabled]="gerando()" (click)="gerarPlano()">
+      <mat-icon>auto_awesome</mat-icon>
+      {{ gerando() ? 'Gerando plano...' : 'Gerar plano tributário' }}
+    </button>
+  </mat-card>
+
+  @if (planoAberto(); as plano) {
+    <mat-card class="dl-card plano-tributario__resultado">
+      <div class="plano-tributario__resultado-cabecalho">
+        <div>
+          <p class="plano-tributario__resultado-titulo">
+            <mat-icon>auto_awesome</mat-icon>
+            Plano para {{ plano.cliente?.nome ?? 'cliente' }}
+          </p>
+          <p class="dl-text-muted">Gerado em {{ formatarData(plano.createdAt) }}</p>
+        </div>
+        <button mat-icon-button (click)="fecharPlano()" aria-label="Fechar">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+
+      @if (plano.resumoDados; as resumo) {
+        <div class="plano-tributario__resumo">
+          <div><span>Apurações consideradas</span><strong>{{ resumo.quantidadeApuracoes }}</strong></div>
+          <div><span>Lançamentos considerados</span><strong>{{ resumo.quantidadeLancamentos }}</strong></div>
+          @if (resumo.scoreMedioDocumentosFiscais) {
+            <div><span>Score fiscal médio</span><strong>{{ resumo.scoreMedioDocumentosFiscais }}/100</strong></div>
+          }
+        </div>
+      }
+
+      <div class="plano-tributario__conteudo">{{ plano.conteudo }}</div>
+    </mat-card>
+  }
+
+  <mat-card class="dl-card plano-tributario__historico">
+    <p class="plano-tributario__historico-titulo">Histórico de planos gerados</p>
+
+    @if (carregandoHistorico()) {
+      <p class="dl-text-muted">Carregando...</p>
+    } @else if (historico().length === 0) {
+      <p class="dl-text-muted">Nenhum plano gerado ainda.</p>
+    } @else {
+      <div class="plano-tributario__lista">
+        @for (plano of historico(); track plano.id) {
+          <div
+            class="plano-tributario__item"
+            role="button"
+            tabindex="0"
+            (click)="abrirPlano(plano)"
+            (keyup.enter)="abrirPlano(plano)"
+          >
+            <div>
+              <p class="plano-tributario__item-cliente">{{ plano.cliente?.nome ?? 'Cliente' }}</p>
+              <p class="dl-text-muted">{{ formatarData(plano.createdAt) }}</p>
+            </div>
+            <button mat-icon-button (click)="excluirPlano(plano, $event)" aria-label="Excluir">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        }
+      </div>
+    }
+  </mat-card>
+</div>

@@ -21,6 +21,7 @@ export class RedefinirSenhaComponent implements OnInit {
   readonly carregando = signal(false);
   readonly mensagemErro = signal<string | null>(null);
   readonly concluido = signal(false);
+  readonly ocultarSenha = signal(true);
 
   readonly form = this.fb.group({
     novaSenha: ['', [Validators.required, Validators.minLength(4)]],

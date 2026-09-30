@@ -16,7 +16,17 @@
         <span>Senha</span>
         <a routerLink="/esqueci-senha" class="login-form__link">Esqueci minha senha</a>
       </div>
-      <input [type]="hidePassword() ? 'password' : 'text'" formControlName="senha" placeholder="••••••••" />
+      <div class="login-form__campo-senha">
+        <input [type]="hidePassword() ? 'password' : 'text'" formControlName="senha" placeholder="••••••••" />
+        <button
+          type="button"
+          class="login-form__olho"
+          (click)="hidePassword.set(!hidePassword())"
+          [attr.aria-label]="hidePassword() ? 'Mostrar senha' : 'Ocultar senha'"
+        >
+          <span class="material-icons">{{ hidePassword() ? 'visibility' : 'visibility_off' }}</span>
+        </button>
+      </div>
       @if (form.controls.senha.touched && form.controls.senha.invalid) {
         <small class="login-form__error">A senha deve ter ao menos 6 caracteres.</small>
       }

@@ -1,0 +1,27 @@
+# Dependências
+/node_modules
+
+# Build e cache do Angular
+/dist
+/.angular/cache
+/.angular
+
+# Ambiente e segredos
+.env
+.env.local
+
+# Editor
+.vscode/*
+!.vscode/extensions.json
+.idea/
+
+# Logs
+npm-debug.log
+yarn-error.log
+
+# Sistema
+.DS_Store
+Thumbs.db
+
+# Testes
+/coverage

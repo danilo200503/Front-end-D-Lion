@@ -79,6 +79,52 @@ a { color: inherit; text-decoration: none; }
   max-width: 420px;
 }
 
+body.dl-a11y-escuro {
+  --dl-white: #1A1A1A;
+  --dl-gray-100: #121212;
+  --dl-gray-200: #333333;
+  --dl-gray-500: #B0B0B0;
+  --dl-gray-700: #D8D8D8;
+  --dl-gray-900: #F5F5F5;
+  --dl-black: #FFFFFF;
+  --dl-gold-light: #3A311A;
+
+  background: var(--dl-gray-100);
+  color: var(--dl-gray-900);
+}
+
+body.dl-a11y-alto-contraste {
+  --dl-gray-500: #000000;
+  --dl-gray-700: #000000;
+  --dl-gray-900: #000000;
+  --dl-gray-200: #000000;
+  --dl-gold: #FFD700;
+  --dl-gold-dark: #B8860B;
+
+  * {
+    text-shadow: none !important;
+  }
+
+  a, button, .mat-mdc-button, [role='button'] {
+    text-decoration: underline;
+  }
+}
+
+body.dl-a11y-alto-contraste.dl-a11y-escuro {
+  --dl-white: #000000;
+  --dl-gray-100: #000000;
+  --dl-gray-900: #FFFFFF;
+  --dl-gray-700: #FFFFFF;
+  --dl-gray-500: #FFFFFF;
+  --dl-gray-200: #FFFFFF;
+  --dl-black: #FFFFFF;
+  --dl-gold: #FFD700;
+}
+
+body.dl-a11y-escala-cinza {
+  filter: grayscale(100%);
+}
+
 .dl-full-width { width: 100%; }
 
 ::-webkit-scrollbar { width: 8px; height: 8px; }

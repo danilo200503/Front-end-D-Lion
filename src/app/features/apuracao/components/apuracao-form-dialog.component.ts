@@ -1,4 +1,4 @@
-import { Component, computed, inject } from '@angular/core';
+import { Component, OnInit, computed, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
@@ -7,6 +7,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { ApuracaoPayload } from '../../../core/models/apuracao.model';
+import { Cliente } from '../../../core/models/cliente.model';
+import { ClientesService } from '../../../core/services/clientes.service';
 
 @Component({
   selector: 'dl-apuracao-form-dialog',
@@ -22,11 +24,15 @@ import { ApuracaoPayload } from '../../../core/models/apuracao.model';
   ],
   templateUrl: './apuracao-form-dialog.component.html',
 })
-export class ApuracaoFormDialogComponent {
+export class ApuracaoFormDialogComponent implements OnInit {
   private readonly fb = inject(FormBuilder);
   private readonly dialogRef = inject(MatDialogRef<ApuracaoFormDialogComponent>);
+  private readonly clientesService = inject(ClientesService);
+
+  readonly clientesDisponiveis = signal<Cliente[]>([]);
 
   readonly form = this.fb.nonNullable.group({
+    clienteId: [''],
     competencia: [new Date().toISOString().slice(0, 7), [Validators.required]],
     regimeTributario: ['SIMPLES_NACIONAL', [Validators.required]],
     anexoSimples: ['I'],
@@ -42,6 +48,12 @@ export class ApuracaoFormDialogComponent {
     this.form.controls.regimeTributario.valueChanges.subscribe(() => this.form.updateValueAndValidity());
   }
 
+  ngOnInit(): void {
+    this.clientesService.listar().subscribe({
+      next: (lista) => this.clientesDisponiveis.set(lista),
+    });
+  }
+
   salvar(): void {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
@@ -52,6 +64,7 @@ export class ApuracaoFormDialogComponent {
     const regime = valores.regimeTributario as ApuracaoPayload['regimeTributario'];
 
     const payload: ApuracaoPayload = {
+      clienteId: valores.clienteId || undefined,
       competencia: valores.competencia,
       regimeTributario: regime,
       receitaBrutaPeriodo: Number(valores.receitaBrutaPeriodo),

@@ -126,6 +126,13 @@ export const routes: Routes = [
           import('./features/apuracao/apuracao.routes').then((m) => m.APURACAO_ROUTES),
       },
       {
+        path: 'plano-tributario',
+        loadChildren: () =>
+          import('./features/plano-tributario/plano-tributario.routes').then(
+            (m) => m.PLANO_TRIBUTARIO_ROUTES
+          ),
+      },
+      {
         path: 'perfil',
         loadChildren: () => import('./features/perfil/perfil.routes').then((m) => m.PERFIL_ROUTES),
       },

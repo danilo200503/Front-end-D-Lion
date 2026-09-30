@@ -8,7 +8,9 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { LancamentoFiscalPayload } from '../../../core/models/lancamento.model';
 import { FiscalDocument } from '../../../core/models/fiscal-document.model';
+import { Cliente } from '../../../core/models/cliente.model';
 import { FiscalService } from '../../../core/services/fiscal.service';
+import { ClientesService } from '../../../core/services/clientes.service';
 
 @Component({
   selector: 'dl-lancamento-form-dialog',
@@ -28,11 +30,14 @@ export class LancamentoFormDialogComponent implements OnInit {
   private readonly fb = inject(FormBuilder);
   private readonly dialogRef = inject(MatDialogRef<LancamentoFormDialogComponent>);
   private readonly fiscalService = inject(FiscalService);
+  private readonly clientesService = inject(ClientesService);
   readonly data = inject(MAT_DIALOG_DATA, { optional: true });
 
   readonly documentosDisponiveis = signal<FiscalDocument[]>([]);
+  readonly clientesDisponiveis = signal<Cliente[]>([]);
 
   readonly form = this.fb.nonNullable.group({
+    clienteId: [''],
     tipo: ['NOTA', [Validators.required]],
     naturezaOperacao: ['SAIDA', [Validators.required]],
     dataCompetencia: [new Date().toISOString().slice(0, 10), [Validators.required]],
@@ -46,6 +51,9 @@ export class LancamentoFormDialogComponent implements OnInit {
     this.fiscalService.buscarDocumentos().subscribe({
       next: (lista) => this.documentosDisponiveis.set(lista.filter((d) => d.status === 'CONCLUIDO')),
     });
+    this.clientesService.listar().subscribe({
+      next: (lista) => this.clientesDisponiveis.set(lista),
+    });
   }
 
   salvar(): void {
@@ -56,6 +64,7 @@ export class LancamentoFormDialogComponent implements OnInit {
 
     const valores = this.form.getRawValue();
     const payload: LancamentoFiscalPayload = {
+      clienteId: valores.clienteId || undefined,
       tipo: valores.tipo as LancamentoFiscalPayload['tipo'],
       naturezaOperacao: valores.naturezaOperacao as LancamentoFiscalPayload['naturezaOperacao'],
       dataCompetencia: valores.dataCompetencia,

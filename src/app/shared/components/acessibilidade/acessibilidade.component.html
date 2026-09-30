@@ -1,0 +1,74 @@
+<div class="dl-a11y">
+  <button
+    type="button"
+    class="dl-a11y__botao"
+    (click)="alternarPainel()"
+    aria-label="Abrir opções de acessibilidade"
+    [attr.aria-expanded]="painelAberto()"
+  >
+    <span class="material-icons">accessibility_new</span>
+  </button>
+
+  @if (painelAberto()) {
+    <div class="dl-a11y__painel" role="dialog" aria-label="Opções de acessibilidade">
+      <div class="dl-a11y__cabecalho">
+        <span>Acessibilidade</span>
+        <button type="button" class="dl-a11y__fechar" (click)="fecharPainel()" aria-label="Fechar">
+          <span class="material-icons">close</span>
+        </button>
+      </div>
+
+      <div class="dl-a11y__secao">
+        <p class="dl-a11y__rotulo">Tamanho do texto</p>
+        <div class="dl-a11y__linha-fonte">
+          <button type="button" (click)="a11y.diminuirFonte()" aria-label="Diminuir fonte">A-</button>
+          <span class="dl-a11y__valor-fonte">{{ a11y.escalaFonte() }}%</span>
+          <button type="button" (click)="a11y.aumentarFonte()" aria-label="Aumentar fonte">A+</button>
+        </div>
+        @if (a11y.escalaFonte() !== 100) {
+          <button type="button" class="dl-a11y__link" (click)="a11y.restaurarFonte()">Restaurar tamanho padrão</button>
+        }
+      </div>
+
+      <div class="dl-a11y__secao">
+        <label class="dl-a11y__switch">
+          <input type="checkbox" [checked]="a11y.altoContraste()" (change)="a11y.alternarAltoContraste()" />
+          <span>Alto contraste</span>
+        </label>
+      </div>
+
+      <div class="dl-a11y__secao">
+        <label class="dl-a11y__switch">
+          <input type="checkbox" [checked]="a11y.modoEscuro()" (change)="a11y.alternarModoEscuro()" />
+          <span>Modo escuro</span>
+        </label>
+      </div>
+
+      <div class="dl-a11y__secao">
+        <p class="dl-a11y__rotulo">Cores</p>
+        <div class="dl-a11y__opcoes-cor">
+          <button
+            type="button"
+            class="dl-a11y__opcao-cor"
+            [class.dl-a11y__opcao-cor--ativa]="a11y.modoCor() === 'padrao'"
+            (click)="a11y.definirModoCor('padrao')"
+          >
+            Padrão
+          </button>
+          <button
+            type="button"
+            class="dl-a11y__opcao-cor"
+            [class.dl-a11y__opcao-cor--ativa]="a11y.modoCor() === 'escala-cinza'"
+            (click)="a11y.definirModoCor('escala-cinza')"
+          >
+            Escala de cinza
+          </button>
+        </div>
+      </div>
+
+      <button type="button" class="dl-a11y__restaurar-tudo" (click)="a11y.restaurarTudo()">
+        Restaurar todas as configurações
+      </button>
+    </div>
+  }
+</div>

@@ -48,9 +48,10 @@ export class AuthService {
     );
   }
 
-  register(payload: RegisterRequest): Observable<RegisterResponse> {
-    return this.http.post<ApiResponse<RegisterResponse>>(`${this.baseUrl}/register`, payload).pipe(
-      map((res) => res.data),
+  register(payload: RegisterRequest): Observable<LoginResponse> {
+    return this.http.post<ApiResponse<AuthApiResponse>>(`${this.baseUrl}/register`, payload).pipe(
+      map((res) => this.mapAuthResponse(res.data)),
+      tap((res) => this.persistSession(res)),
       catchError((erro) => this.tratarErro(erro))
     );
   }

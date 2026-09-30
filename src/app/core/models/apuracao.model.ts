@@ -2,6 +2,8 @@ export type RegimeTributario = 'SIMPLES_NACIONAL' | 'LUCRO_PRESUMIDO' | 'LUCRO_R
 
 export interface Apuracao {
   id: string;
+  clienteId?: string;
+  cliente?: { id: string; nome: string; empresa?: string } | null;
   competencia: string;
   regimeTributario: RegimeTributario;
   receitaBrutaPeriodo?: number;
@@ -21,6 +23,7 @@ export interface Apuracao {
 }
 
 export interface ApuracaoPayload {
+  clienteId?: string;
   competencia: string;
   regimeTributario: RegimeTributario;
   anexoSimples?: 'I' | 'III';

@@ -32,6 +32,7 @@ export class SidebarComponent {
     { label: 'Cobranças', icon: 'request_quote', route: '/cobrancas' },
     { label: 'Lançamentos Fiscais', icon: 'receipt_long', route: '/lancamentos' },
     { label: 'Apuração', icon: 'calculate', route: '/apuracao' },
+    { label: 'Plano Tributário', icon: 'insights', route: '/plano-tributario' },
     { label: 'Configurações', icon: 'settings', route: '/configuracoes' },
   ];
 

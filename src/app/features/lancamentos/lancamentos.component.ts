@@ -39,7 +39,7 @@ export class LancamentosComponent implements OnInit {
   readonly explicandoId = signal<string | null>(null);
   readonly explicacaoAberta = signal<string | null>(null);
 
-  readonly colunas = ['tipo', 'naturezaOperacao', 'dataCompetencia', 'descricao', 'valor', 'acoes'];
+  readonly colunas = ['cliente', 'tipo', 'naturezaOperacao', 'dataCompetencia', 'descricao', 'valor', 'acoes'];
 
   ngOnInit(): void {
     this.carregar();

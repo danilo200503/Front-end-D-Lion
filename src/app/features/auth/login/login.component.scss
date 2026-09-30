@@ -249,3 +249,28 @@ input {
 
   &:hover { border-color: var(--dl-gold); }
 }
+
+.login-form__campo-senha {
+  position: relative;
+  display: flex;
+
+  input { width: 100%; padding-right: 42px !important; }
+}
+
+.login-form__olho {
+  position: absolute;
+  right: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+  border: none;
+  background: none;
+  color: var(--dl-gray-500);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding: 6px;
+
+  .material-icons { font-size: 19px; }
+
+  &:hover { color: var(--dl-gray-900); }
+}

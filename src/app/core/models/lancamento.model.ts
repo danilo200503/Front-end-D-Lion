@@ -3,6 +3,8 @@ export type NaturezaOperacao = 'ENTRADA' | 'SAIDA';
 
 export interface LancamentoFiscal {
   id: string;
+  clienteId?: string;
+  cliente?: { id: string; nome: string; empresa?: string } | null;
   tipo: TipoLancamento;
   naturezaOperacao: NaturezaOperacao;
   dataCompetencia: string;
@@ -16,6 +18,7 @@ export interface LancamentoFiscal {
 }
 
 export interface LancamentoFiscalPayload {
+  clienteId?: string;
   tipo: TipoLancamento;
   naturezaOperacao: NaturezaOperacao;
   dataCompetencia: string;
